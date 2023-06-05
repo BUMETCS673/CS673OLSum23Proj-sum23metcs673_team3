@@ -41,7 +41,8 @@
 </head>
 <body>
   <h2>User Registration</h2>
-  <form>
+  <form method="post"> <!-- Django requires to use a POST methods -->
+    {% csrf_token %} <!-- prevent a CSRF Attack -->
     <div class="form-group">
       <label for="username">Username:</label>
       <input type="text" id="username" name="username" required>
@@ -54,10 +55,12 @@
       <label for="password">Password:</label>
       <input type="password" id="password" name="password" required>
     </div>
+    <!-- Do we need the confirm password function?
     <div class="form-group">
       <label for="confirm-password">Confirm Password:</label>
       <input type="password" id="confirm-password" name="confirm-password" required>
     </div>
+    -->
     <input type="submit" value="Register" id="submit">
   </form>
   <p> Account Created?  <a href="{% url 'User_Login' %}">Login</a></p>
@@ -113,35 +116,8 @@
         }
     })
 
-    document.getElementById("submit").addEventListener("click",event=> {
-        if (validateRegistrationForm()) {
-            let username = document.getElementById("username").value;
-            let email = document.getElementById("email").value;
-            let password = document.getElementById("password").value;
-            let myHeaders = new Headers();
-            myHeaders.append("Content-Type", "application/json");
-
-            let raw = JSON.stringify({
-                "username": username,
-                "password": password,
-                "email": email
-            });
-
-            let requestOptions = {
-                method: 'POST',
-                headers: myHeaders,
-                body: raw,
-                redirect: 'follow'
-            };
-
-            fetch("http://127.0.0.1:8001/login/register-user/", requestOptions)
-                    .then(response => response.text())
-                    .then(result => console.log(result))
-                    .catch(error => console.log('error', error));
-        }
-    })
-
 </script>
+
 </body>
 </html>
 
