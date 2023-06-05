@@ -86,22 +86,16 @@ WSGI_APPLICATION = 'calorietracker.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 #TODO: Write a guide for setting up the DB locally so it can be connected to, for now just comment this out to test without the db connection
-#DATABASES = {
-#    "default": {
-#        "NAME":"calorie_tracker",
-#        "ENGINE": "django.db.backends.postgresql",
-#        "HOST":"172.18.0.2",
-#        "USER": 'postgres',
-#        "PASSWORD":"password"
+DATABASES = {
+    "default": {
+        "NAME":"calorie_tracker",
+        "ENGINE": "django.db.backends.postgresql",
+        "HOST":"localhost",
+        "USER": 'postgres',
+        "PASSWORD":"password"
         # "OPTIONS": {
         #     "passfile": ".pgpass",
         # },
-#    }
-#}
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": "mydatabase",
     }
 }
 
