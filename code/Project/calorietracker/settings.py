@@ -90,7 +90,7 @@ DATABASES = {
     "default": {
         "NAME":"calorie_tracker",
         "ENGINE": "django.db.backends.postgresql",
-        "HOST":"172.18.0.2",
+        "HOST":"localhost",
         "USER": 'postgres',
         "PASSWORD":"password"
         # "OPTIONS": {

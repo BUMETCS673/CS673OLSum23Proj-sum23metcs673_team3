@@ -18,8 +18,6 @@ def user_login(request):
 
 #umamaheswar
 def user_register(request):
-    # Handle the registration logic here
-    # You can use Django forms or process the form data manually
     return render(request, 'registration.html')
 
 @api_view(['POST'])
@@ -29,12 +27,10 @@ def auth_user(request):
     username = request.data.get("username")
     user = authenticate(username=username,password=password)
     if user is not None:
-        #This token can only be creted once per user need to look into how to expire it
-        # token = Token.objects.create(user=user,)
+
         print(user.username)
         data = {
             "user_pass": password,
-            # "token": token.key
         }
         response = redirect('/login/homepage/')
     else:
@@ -43,7 +39,6 @@ def auth_user(request):
         }
         response = Response(data, status=403)
 
-    # print(user[0])
     return response
 
 @api_view(['POST'])
@@ -52,6 +47,8 @@ def create_new_user(request):
     username = request.data.get("username")
     email = request.data.get("email")
     user = User.objects.create_user(password=password,username=username,email=email)
+    # This token can only be creted once per user need to look into how to expire it
+    # token = Token.objects.create(user=user,)
     user.save()
     data = {
         "username":username
