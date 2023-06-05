@@ -8,6 +8,14 @@
 <div>
     <h1>Calorie Logger</h1>
 </div>
-
+{% block content %}
+{% if user.is_authenticated %}
+  Hi {{ user.username }}!
+  <p><a href="{% url 'User_Logout' %}">Logout Page</a></p>
+{% else %}
+  <p>You are not logged in</p>
+  <a href="{% url 'User_Login' %}">Log In</a>
+{% endif %}
+{% endblock %}
 </body>
 </html>

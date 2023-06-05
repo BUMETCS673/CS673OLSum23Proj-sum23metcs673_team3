@@ -9,8 +9,9 @@ from django.contrib.auth import authenticate
 from django.shortcuts import redirect
 # from rest_framework.permissions import IsAuthenticated
 from django.http import HttpResponse #trail #mahesh
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
+from django.http import HttpResponseRedirect
 
 def user_login(request):
     if request.method == 'POST':
@@ -18,11 +19,11 @@ def user_login(request):
         password = request.POST['password']
         # check if user is authenticated
         user = authenticate(username=username, password=password)
-        if user is None: # if there's no such user, go back to login page
+        if user is not None: # if there's such user, redirect to homepage
             login(request, user)
-            response = redirect('/login/user/')
-        else: # otherwise, redirect to homepage
             response = redirect('/login/homepage/')
+        else: # otherwise, go back to login page
+            response = redirect('/login/user/')
         return response
     return render(request, 'login.html')
 
@@ -36,6 +37,13 @@ def user_register(request):
         user.save()
         return redirect('/login/user/')
     return render(request, 'registration.html')
+
+
+def user_logout(request):
+    if request.method == 'POST':
+        logout(request)
+        return redirect('/login/homepage/')
+    return render(request, 'logout.html')
 
 
 @api_view(['POST'])
