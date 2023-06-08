@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"/>
+    <title>Reset your password</title>
+</head>
+<body>
+    <div class="container">
+        <h2>Change Password</h2>
+        {% include 'template_message.html' %} <!-- message display -->
+
+        <!-- Information form -->
+        <form method='post'>
+            {% csrf_token %} <!-- prevent a CSRF Attack -->
+            {{form.as_p}}
+            <div class="submit-button"><input type="submit" value="Submit" id="submit"></div>
+        </form>
+        <p>Don't have an account? <a href="{% url 'register' %}">Register</a></p>
+        <p>Go back to <a href="{% url 'homepage' %}">Homepage</a></p>
+  </div>
+</body>
+</html>

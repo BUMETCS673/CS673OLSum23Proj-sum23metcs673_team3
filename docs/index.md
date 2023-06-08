@@ -1,4 +1,18 @@
-## About Team 3
+---
+layout: page
+show_sidebar: false
+menubar: menu
+---
+
+
+
+## Our Product
+
+The Calorie Tracking Application is a Python Django-based web application that allows users to track their daily calorie intake.
+It provides a user-friendly interface for logging food items and calculating total calorie consumption. 
+The application aims to help users maintain a healthy diet and achieve their fitness goals by providing insights into their eating habits.
+
+## Our Team
 
 ### Corydon (Cory) Wood
 
@@ -35,5 +49,3 @@ I am a current master's student specializing in Cryptography within the Computer
 I am a second year graduate student studying Computer Science with an intrest in Healthcare Informatics. I do not come from an computer sciecne backgorund as in Undergradute
 degree was in Psychology and Chemistry. For this class, I am currently in team 3 with the requiremnt leader role. I would like to learn a lot from everyone in the class as I would
 like you improve my skills. Looking forward to completing this class successfully with you all!
-
-

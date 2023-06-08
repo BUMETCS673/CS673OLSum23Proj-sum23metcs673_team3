@@ -1,0 +1,13 @@
+- label: Menu
+  items:
+    - name: Home
+      link: /
+    - name: Product Documentation
+      link: #
+      items:
+        - name: Development Tools
+          link: /devops-tools/
+        - name: Setting Up Development Environment
+          link: /dev-env-setup/
+        - name: How To Add a Page
+          link: /add-page/
