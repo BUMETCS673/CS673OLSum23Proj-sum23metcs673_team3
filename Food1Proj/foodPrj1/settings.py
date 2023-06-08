@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'foods.apps.FoodsConfig'
+    'foods.apps.FoodsConfig',
+    'calorieCalculation.apps.CaloriecalculationConfig'
 ]
 
 MIDDLEWARE = [
