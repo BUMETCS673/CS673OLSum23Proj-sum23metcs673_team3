@@ -2,14 +2,16 @@ from django.urls import path
 from . import views
 
 
-# URLConf #Umamaheswar
+# URLConf
 urlpatterns = [
 
-    path('user/', views.user_login, name='User_Login'),
+    path('', views.user_login, name='login'),
     path('register/', views.user_register, name='register'),
-    path('api-auth/', views.auth_user),
-    path('register-user/',views.create_new_user),
-    path('homepage/',views.homepage),
-    path('logout/',views.user_logout, name='User_Logout')
+    path('homepage/', views.homepage, name='homepage'),
+    path('logout/', views.user_logout, name='logout'),
+    path('activate/<uidb64>/<token>', views.activate, name='activate'),
+    path('change_pass/', views.change_pass, name='change_pass'),
+    path('reset_pass/', views.reset_pass, name='reset_pass'),
+    path('reset/<uidb64>/<token>', views.reset_pass_done, name='reset_pass_done')
 
 ]

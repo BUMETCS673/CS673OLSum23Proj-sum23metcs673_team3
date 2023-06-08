@@ -15,12 +15,14 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 import debug_toolbar
-
+from django.contrib.auth.decorators import login_required
+from login import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('login/', include('login.urls')),#umamaheswar
+    path('login/', include('login.urls')),
     path('__debug__/',include(debug_toolbar.urls)),#umamaheswar
+    re_path(r'^$', views.index, name='index') # set index to the homepage under login folder
 ]

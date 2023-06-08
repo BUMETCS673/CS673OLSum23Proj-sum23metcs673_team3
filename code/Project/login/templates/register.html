@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"/>
+    <title>User Registration</title>
+</head>
+<body>
+    <div class="container">
+        <h2>User Registration</h2>
+        {% include 'template_message.html' %} <!-- message display -->
+
+        {% block content %}
+        <!-- registration form -->
+        <form method="post"> <!-- Django form requires to use a POST methods -->
+            {% csrf_token %} <!-- prevent a CSRF Attack -->
+	        {% for field in form %}
+	        <p>
+            {% if field.errors %} <!-- when error occurs, display the error message -->
+		        <ul class="errorlist">
+			        {% for error in field.errors %}
+			        {{ error }}
+			        {% endfor %}
+		        </ul>
+            {% endif %}
+
+	 	    {{ field.label_tag }} {{ field }}
+	        </p>
+	        {% endfor %}
+            <div class="submit-button"><input type="submit" value="Login" id="submit"></div>
+        </form>
+        {% endblock content%}
+
+        <p> Account Created?  <a href="{% url 'login' %}">Login</a></p>
+    </div>
+</body>
+</html>
+

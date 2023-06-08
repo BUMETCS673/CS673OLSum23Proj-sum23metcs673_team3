@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -37,10 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'login',#umamaheswar
+    'login',
     'debug_toolbar', #umamaheswar
-    'rest_framework',
-    'rest_framework.authtoken',
     'foods.apps.FoodsConfig'
 ]
 
@@ -88,14 +87,8 @@ WSGI_APPLICATION = 'calorietracker.wsgi.application'
 #TODO: Write a guide for setting up the DB locally so it can be connected to, for now just comment this out to test without the db connection
 DATABASES = {
     "default": {
-        "NAME":"calorie_tracker",
-        "ENGINE": "django.db.backends.postgresql",
-        "HOST":"localhost",
-        "USER": 'postgres',
-        "PASSWORD":"password"
-        # "OPTIONS": {
-        #     "passfile": ".pgpass",
-        # },
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": "mydatabase",
     }
 }
 
@@ -128,13 +121,16 @@ TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, "static/"),
+)
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -154,3 +150,11 @@ LOGGING = {
         "level": "WARNING",
     },
 }
+
+# Email sending function
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'cs673team3@gmail.com'
+EMAIL_HOST_PASSWORD = 'vkfyympkkcobgbnn'
