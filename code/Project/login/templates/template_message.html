@@ -1,0 +1,13 @@
+{% if messages %}
+    {% for message in messages %}
+        {% if message.tags == 'success' %}
+                {{ message|safe|escape }}
+        {% elif message.tags == 'error' %}
+                {{ message|safe }}
+        {% elif message.tags == 'info' %}
+                {{ message|safe|escape }}
+        {% elif message.tags == 'warning' %}
+                {{ message|safe|escape }}
+        {% endif %}
+    {% endfor %}
+{% endif %}
