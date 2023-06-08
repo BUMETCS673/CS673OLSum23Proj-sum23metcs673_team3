@@ -26,15 +26,9 @@ def user_register(request):
     if request.user.is_authenticated: # check if user already logged in
         return redirect('homepage') # if so, redirect to homepage
 
-    # reset the registration form
-    if request.method == 'GET':
-        form = RegisterForm()
-        return render(request, 'register.html', {'form': form})
-
     # when user submit the registration form
     if request.method == 'POST':
         form = RegisterForm(request.POST)
-
         if form.is_valid(): # check if valid (password complexity, email pattern, etc.)
 
             # if so, create user
@@ -52,19 +46,17 @@ def user_register(request):
         else: # if not valid, refresh the page and let the user try again
             return render(request, 'register.html', {'form': form})
 
+    form = RegisterForm()
+    return render(request, 'register.html', {'form': form})
+
 
 # login function
 def user_login(request):
     if request.user.is_authenticated: # check if user logged in
         return redirect('homepage') # if so, redirect to homepage
 
-    # reset the login form
-    if request.method == 'GET':
-        form = LoginForm()
-        return render(request, 'login.html', {'form': form})
-
     # when user submit the login form
-    elif request.method == 'POST':
+    if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid(): # check if form is valid
             username = form.cleaned_data['username']
@@ -81,6 +73,9 @@ def user_login(request):
         # form is not valid or user is not authenticated
         messages.error(request, f'Invalid username or password')
         return render(request, 'login.html', {'form': form})
+
+    form = LoginForm()
+    return render(request, 'login.html', {'form': form})
 
 
 # Logout function
@@ -134,15 +129,10 @@ def reset_pass(request):
 def reset_pass_done(request, uidb64, token):
     User = get_user_model()
 
-    # decoding the "uidb64" and "token" to see if them match users in the database
-    try:
-        uid = force_str(urlsafe_base64_decode(uidb64))
-        user = User.objects.get(pk=uid)
-    except:
-        user = None
+    user, active = decipher(request, uidb64, token, User)
 
     # if such user exist, let the user change their password
-    if user is not None and account_activation_token.check_token(user, token):
+    if user is not None and active:
         if request.method == 'POST':
             form = ChangePass(user, request.POST)
             if form.is_valid():
@@ -183,17 +173,10 @@ def sendEmail(request, user, user_email, subject, reset=0):
 # Activation function when user click on the confirmation link
 def activate(request, uidb64, token):
     User = get_user_model()
-
-    # decoding the "uidb64" and "token" to see if them match users in the database
-    # same as the reset password
-    try:
-        uid = force_str(urlsafe_base64_decode(uidb64))
-        user = User.objects.get(pk=uid)
-    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
-        user = None
+    user, active = decipher(request, uidb64, token, User)
 
     # if such user exits, set the user active
-    if user is not None and account_activation_token.check_token(user, token):
+    if user is not None and active:
         user.is_active = True
         user.save()
         messages.success(request, 'Your account is activated.')
@@ -202,3 +185,19 @@ def activate(request, uidb64, token):
         messages.error(request, 'The confirmation link is invalid!')
 
     return redirect('homepage')
+
+
+
+def decipher(request, uidb64, token, User):
+    # decoding the "uidb64" and "token" to see if them match users in the database
+    try:
+        uid = force_str(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+
+    active = account_activation_token.check_token(user, token)
+
+    return user, active
+
+
