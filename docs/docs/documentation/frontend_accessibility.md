@@ -9,7 +9,7 @@ permalink: /frontend-accessibility/
 # Frontend Accessibility
 
 ## 0. Introduction 
-This document outlines the functionalities and design of the application, focusing on user registration, login, password change and reset, and email authentication processes.
+This document outlines the functionalities and design of the application, focusing on user registration, email authentication, login, password change and reset processes.
 
 ---
 
