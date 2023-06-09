@@ -1,3 +1,11 @@
+---
+layout: page
+show_sidebar: false
+menubar: menu
+title: Frontend Accessibility
+permalink: /frontend_accessibility/
+---
+
 # Frontend Accessibility
 
 ## 1. Introduction 
