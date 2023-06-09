@@ -3,7 +3,7 @@ layout: page
 show_sidebar: false
 menubar: menu
 title: Frontend Accessibility
-permalink: /frontend-accessibility/
+permalink: /frontend-access/
 ---
 
 # Frontend Accessibility
