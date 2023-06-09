@@ -18,8 +18,8 @@ for changes and automatically incorporate them.*
 
 4) Go to Project Directory and run this Script `python3 manage.py runserver` or `django-admin manage.py runserver`
 
-5) Go to `http://127.0.0.1:8000/` page and see if the application. 
-   - Go to http://127.0.0.1:8000/login/user/ for Login.
+5) Navigate to `http://127.0.0.1:8000/` in your web browser and verify the operational status of the application.
+   - Go to http://127.0.0.1:8000/login/ for Login.
 
 ## Setting Up Full Stack Development Environment
 
