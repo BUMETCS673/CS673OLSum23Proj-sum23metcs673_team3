@@ -1,24 +1,42 @@
 <!DOCTYPE html>
 <html>
 <head>
-  {% load static %}
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    {% load static %}
   <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"/>
   <title>User Login</title>
 </head>
 <body>
-  <div class="container">
-    <h2>User Login</h2>
-    {% include 'template_message.html' %}
+  <div class="container-fluid m-0">
+      <div class="row">
+          <div class="col-12 ">
+              <div class="header-container">
+                  <h1>User Login</h1>
+              </div>
+          </div>
+      </div>
+      <div>
+        {% include 'template_message.html' %}
+      </div>
 
     <!-- login form -->
-    <form method='post'> <!-- Django from requires to use a POST method -->
-      {% csrf_token %} <!-- prevent a CSRF Attack -->
-      {{form.as_p}}
-      <div class="submit-button"><input type="submit" value="Login" id="submit"></div>
-    </form>
+      <div class="row justify-content-center">
+          <div class="col-6 form-container">
+            <form method='post'> <!-- Django from requires to use a POST method -->
+                {% csrf_token %} <!-- prevent a CSRF Attack -->
+                {{form.as_p}}
+                <div class="submit-button">
+                    <input type="submit" value="Login" id="submit">
+                </div>
+            </form>
+              <p>Don't have an account? <a href="{% url 'register' %}">Register</a></p>
+              <p><a href="{% url 'reset_pass' %}">Forgot password?</a></p>
+          </div>
+      </div>
 
-    <p>Don't have an account? <a href="{% url 'register' %}">Register</a></p>
-    <p><a href="{% url 'reset_pass' %}">Forgot password?</a></p>
+
 
   </div>
 </body>

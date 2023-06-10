@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>food-log</title>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"/>
+    <style>
+        /*.header-container{*/
+        /*    height: 10vh;*/
+        /*    display: flex;*/
+        /*    background-color: #f1f2eb;*/
+        /*    align-content: center;*/
+        /*    justify-content: center;*/
+        /*    box-shadow: #84a29f 0px 5px 5px 0px;*/
+        /*}*/
+
+        /*.header-container h1{*/
+        /*    font-family: 'Montserrat', sans-serif;*/
+        /*    color: #56664e;*/
+        /*}*/
+
+        /*.navigation-container{*/
+        /*    height: 5vh;*/
+        /*    display: flex;*/
+        /*    align-content: center;*/
+        /*    justify-content: center;*/
+        /*    border-bottom: lightgrey 1px solid;*/
+
+        /*}*/
+    </style>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="header-container">
+                <h1>{% block page_title %}{% endblock %}</h1>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="navigation-container">
+
+                    <button class="btn mt-1" id="food-journal">My Food Journal</button>
+
+                    <button class="btn mt-1" id="food-table">Food Table</button>
+
+
+                    <button class="btn mt-1" id="logout-btn">Logout</button>
+            </div>
+        </div>
+    </div>
+    {% block content %}
+    {% endblock %}
+</div>
+<script>
+    document.getElementById("logout-btn").addEventListener("click",ev=>{
+        location.href = '/login/logout';
+    })
+    document.getElementById("food-journal").addEventListener("click",ev=>{
+        location.href = '/foods/';
+    })
+    document.getElementById("food-table").addEventListener("click",ev=>{
+        location.href = '/foods/food-table';
+    })
+</script>
+
+</body>
+</html>

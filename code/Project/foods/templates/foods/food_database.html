@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block page_title %}
+ Food Table
+{% endblock %}
+
+{% block content %}
+<div class="row food_table">
+    <div class="col-6 mt-3">
+<table class="table table-hover align-middle">
+    <tr class="table-dark">
+        <th style="text-align: center">Food Name</th>
+        <th style="text-align: center">Calories Per Serving</th>
+    </tr>
+{% for food in foods %}
+    <tr>
+        <td style="padding-left: 4vw"><b>{{food.name|title}}</b></td>
+        <td style="text-align: center">{{food.calories}}</td>
+    </tr>
+ {% endfor %}
+    <tr>
+        <td style="padding-left: 4vw"><input type="text" id="food_name"></td>
+        <td style="padding-left: 8vw"><input type="number" id="calories"></td>
+    </tr>
+</table>
+        <button type="submit" class="btn" id="create-food-item">Create</button>
+        </div>
+    </div>
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
+<script>
+    document.getElementById("create-food-item").addEventListener("click",event=>{
+        let food_name = document.getElementById("food_name").value
+        let calories = document.getElementById("calories").value
+        let token = Cookies.get('csrftoken');
+
+
+        let myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        myHeaders.append("Cookie", "csrftoken=c8WDPudOABPAxaL7aEncG3SJWBzBEVBk");
+        myHeaders.append('X-CSRFToken',token)
+
+        let raw = JSON.stringify({
+        "food_item_name": food_name,
+        "calories": calories
+        });
+
+        let requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
+
+        fetch("http://127.0.0.1:8000/foods/create-food-item", requestOptions)
+        .then(response => response.text())
+        .then(result => {
+            console.log(result)
+            location.reload()
+        })
+        .catch(error => console.log('error', error));
+    })
+</script>
+{% endblock %}

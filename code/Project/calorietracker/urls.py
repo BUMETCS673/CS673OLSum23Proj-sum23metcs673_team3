@@ -19,10 +19,12 @@ from django.urls import path, include, re_path
 import debug_toolbar
 from django.contrib.auth.decorators import login_required
 from login import views
+from foods import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/', include('login.urls')),
+    path('foods/', include('foods.urls')),
     path('__debug__/',include(debug_toolbar.urls)),#umamaheswar
-    re_path(r'^$', views.index, name='index') # set index to the homepage under login folder
+    re_path(r'^$', views.index, name='index'), # set index to the homepage under login folder
 ]

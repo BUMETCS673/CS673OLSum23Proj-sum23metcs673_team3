@@ -38,9 +38,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
     'login',
     'debug_toolbar', #umamaheswar
-    'foods.apps.FoodsConfig'
+    'bootstrap5',
+    'foods'
+
 ]
 
 MIDDLEWARE = [
@@ -66,7 +69,9 @@ ROOT_URLCONF = 'calorietracker.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            BASE_DIR/"templates"
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -87,8 +92,14 @@ WSGI_APPLICATION = 'calorietracker.wsgi.application'
 #TODO: Write a guide for setting up the DB locally so it can be connected to, for now just comment this out to test without the db connection
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": "mydatabase",
+        "NAME":"calorie_tracker",
+        "ENGINE": "django.db.backends.postgresql",
+        "HOST":"localhost",
+        "USER": 'postgres',
+        "PASSWORD":"password"
+        # "OPTIONS": {
+        #     "passfile": ".pgpass",
+        # },
     }
 }
 
