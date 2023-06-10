@@ -53,7 +53,7 @@ def user_register(request):
 # login function
 def user_login(request):
     if request.user.is_authenticated: # check if user logged in
-        return redirect('homepage') # if so, redirect to homepage
+        return redirect('food-journal') # if so, redirect to homepage
 
     # when user submit the login form
     if request.method == 'POST':
@@ -68,7 +68,7 @@ def user_login(request):
             # if user exists
             if user:
                 login(request, user) # allow login
-                return redirect('homepage')
+                return redirect('food-journal')
 
         # form is not valid or user is not authenticated
         messages.error(request, f'Invalid username or password')

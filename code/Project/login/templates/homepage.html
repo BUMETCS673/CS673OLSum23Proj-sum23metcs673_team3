@@ -1,16 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"/>
     <meta charset="UTF-8">
     <title>Homepage</title>
 </head>
 <body>
-    <div class="container">
-        <h1 style="text-align: center;">Calorie Logger</h1>
+        <div class="container-fluid m-0">
+            <div class="row">
+                <div class="col-12 ">
+                    <div class="header-container">
+                        <h1>Calorie Logger</h1>
+                    </div>
+                </div>
+            </div>
         {% include 'template_message.html' %} <!-- message display -->
         {% block content %}
+        <div class="row">
+            <div class="col-12 justify-text-center mt-4">
+
+
+
+
+
 
         <!-- if user has logged in -->
         {% if user.is_authenticated %}
@@ -20,9 +36,12 @@
 
         <!-- if user has not logged in -->
         {% else %}
-        <p>Welcome!</p>
-        <p><a href="{% url 'login' %}">Log In</a> Or <a href="{% url 'register' %}">Register</a></p>
+
+        <h3>Welcome!</h3>
+        <p class="mt-4"><a href="{% url 'login' %}">Log In</a> Or <a href="{% url 'register' %}">Register</a></p>
         {% endif %}
+            </div>
+        </div>
 
         {% endblock %}
     </div>
