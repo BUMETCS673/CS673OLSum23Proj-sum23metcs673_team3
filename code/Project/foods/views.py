@@ -89,6 +89,10 @@ def get_all_journal(user_id):
         enddate = datetime.today()
         startdate = datetime.today()-timedelta(7)
         response = FoodLog.objects.filter(user_id=user_id,time_ate__range=[startdate, enddate])
+    elif FILTER == "month":
+        enddate = datetime.today()
+        startdate = datetime.today()-timedelta(30)
+        response = FoodLog.objects.filter(user_id=user_id,time_ate__range=[startdate, enddate])
     else:
         response = FoodLog.objects.filter(user_id=user_id)
 

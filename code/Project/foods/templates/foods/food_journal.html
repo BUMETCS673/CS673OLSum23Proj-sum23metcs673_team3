@@ -14,6 +14,9 @@
             <input name="time-period" id="all" type="radio" class="form-check-input">
             <label class="form-check-label" for="all">All</label>
 
+            <input name="time-period" id="month" type="radio" class="form-check-input">
+            <label class="form-check-label" for="month">Last 30 Days</label>
+
             <input name="time-period" id="week" type="radio" class="form-check-input">
             <label class="form-check-label" for="week">Current Week</label>
 
@@ -63,14 +66,15 @@
 <script>
     function setTimePeriod(){
         let all = document.getElementById("all").checked
-        let weekly = document.getElementById("week").checked
+        let week = document.getElementById("week").checked
         let today = document.getElementById("today").checked
+        let month = document.getElementById("month").checked
         let filter
-        console.log(all)
-        console.log(today)
-        console.log(weekly)
-        if (weekly){
+        if (week){
             filter = "week"
+        }
+        else if(month){
+            filter = "month"
         }
         else if (today){
             filter = "today"
@@ -106,6 +110,9 @@
     document.getElementById("all").addEventListener("change",ev => {
         setTimePeriod()
     })
+    document.getElementById("month").addEventListener("change",ev => {
+        setTimePeriod()
+    })
     document.getElementById("week").addEventListener("change",ev => {
         setTimePeriod()
     })
@@ -114,16 +121,16 @@
     })
     window.addEventListener("load",ev=>{
         let myHeaders = new Headers();
-        myHeaders.append("X-CSRFToken", "zyiUdno0OH0t2BMBFVx0PNaiRoAkPUu5");
         myHeaders.append("Content-Type", "application/json");
-        myHeaders.append("Cookie", "csrftoken=c8WDPudOABPAxaL7aEncG3SJWBzBEVBk");
         let token = Cookies.get('csrftoken');
         myHeaders.append('X-CSRFToken',token)
         let applied_filter = "{{applied_filter}}"
         if (applied_filter === "today"){
             document.getElementById("today").checked = true
-        }else if(applied_filter === "week"){
+        }else if(applied_filter === "week") {
             document.getElementById("week").checked = true
+        }else if(applied_filter === "month"){
+            document.getElementById("month").checked = true
         }else{
             document.getElementById("all").checked = true
         }
