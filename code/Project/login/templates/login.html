@@ -29,10 +29,15 @@
                 {{form.as_p}}
                 <div class="submit-button">
                     <input type="submit" value="Login" id="submit">
+                    <span class="or-text">or</span>
+                    <a href="{% url 'google_login' %}" class="google-login-btn">
+                      <i class="fab fa-google fa-2x"></i>
+                    </a>             
                 </div>
             </form>
               <p>Don't have an account? <a href="{% url 'register' %}">Register</a></p>
               <p><a href="{% url 'reset_pass' %}">Forgot password?</a></p>
+              <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
           </div>
       </div>
 
