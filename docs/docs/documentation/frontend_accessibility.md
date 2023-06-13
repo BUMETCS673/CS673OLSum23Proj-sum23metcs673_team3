@@ -63,6 +63,12 @@ If a user forgets their password, they can click on the 'Forgot Password?' link 
 The 'Forgot Password?' link will be placed below the password field on the login page. The design of the password reset page will follow the same simple, intuitive theme as the rest of the website.
 
 ---
+## 6. Food Logging
+### 6.1 Logging Food Entries
+The food log allows users to record daily food intake. Users can select food items from the database and specify the quantity or portion size.
 
-## 6. Conclusion
+### 6.2 Editing Entry Dates
+Users can edit the date of a food log entry, allowing accurate tracking of food intake on specific dates.
+
+## 7. Conclusion
 Calorie Tracker is designed to ensure a seamless user experience with efficient functionalities. It pays significant attention to user management with easy registration, login, password change and reset, and email authentication. As the site continues to evolve, the focus will remain on the continuous enhancement of these functions, maintaining its commitment to simplicity and convenience.
