@@ -1,6 +1,7 @@
 from django.urls import path
 from . import views
-
+from django.urls import path
+from .views import google_login, google_auth_callback
 
 # URLConf
 urlpatterns = [
@@ -12,6 +13,8 @@ urlpatterns = [
     path('activate/<uidb64>/<token>', views.activate, name='activate'),
     path('change_pass/', views.change_pass, name='change_pass'),
     path('reset_pass/', views.reset_pass, name='reset_pass'),
-    path('reset/<uidb64>/<token>', views.reset_pass_done, name='reset_pass_done')
+    path('reset/<uidb64>/<token>', views.reset_pass_done, name='reset_pass_done'),
+    path('google/', views.google_login, name='google_login'),
+    path('google-auth-callback/', views.google_auth_callback, name='google_auth_callback'),
 
 ]

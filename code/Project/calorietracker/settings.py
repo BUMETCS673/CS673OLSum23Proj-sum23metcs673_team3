@@ -20,6 +20,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
+from pathlib import Path
+from google.oauth2 import id_token
+
+# Google OAuth configuration
+GOOGLE_CLIENT_ID = '97882040710-506r1hqfuuvqoa7rdkrtchha4onaqogf.apps.googleusercontent.com'
+GOOGLE_CLIENT_SECRET = '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'
+GOOGLE_AUTH_REDIRECT_URI = 'http://localhost:8000/login/homepage'
+
+
+#custom user model
+AUTH_USER_MODEL = 'login.User'
+
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-zzkc1$6@s7au3bisaakx$c=y*fb2vy$(fl+8$l+7s+9hc!bae+'
 
@@ -40,14 +52,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'login',
-    'debug_toolbar', #umamaheswar
+    'debug_toolbar', 
     'bootstrap5',
     'foods'
 
 ]
 
 MIDDLEWARE = [
-    'debug_toolbar.middleware.DebugToolbarMiddleware',#umamaheswar
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
