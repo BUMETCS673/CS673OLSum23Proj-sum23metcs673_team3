@@ -64,11 +64,25 @@ The 'Forgot Password?' link will be placed below the password field on the login
 
 ---
 ## 6. Food Logging
+
 ### 6.1 Logging Food Entries
 The food log allows users to record daily food intake. Users can select food items from the database and specify the quantity or portion size.
 
 ### 6.2 Editing Entry Dates
 Users can edit the date of a food log entry, allowing accurate tracking of food intake on specific dates.
 
-## 7. Conclusion
+### 6.3 Food Item Details
+Users can see the food item, the associated image and the calories-per-serving by clicking the food table button.
+
+---
+## 7. Admin Capabilities
+
+### 7.1 Adding Food to the Database
+Admin can contribute to the food database by adding new food items. Required information includes the food name and calorie count, with an optional food image.
+
+### 7.2 Deleting Food Entry
+Admin can delete the food entry from the food database by selecting the food entry and deleting it.
+
+---
+## 8. Conclusion
 Calorie Tracker is designed to ensure a seamless user experience with efficient functionalities. It pays significant attention to user management with easy registration, login, password change and reset, and email authentication. As the site continues to evolve, the focus will remain on the continuous enhancement of these functions, maintaining its commitment to simplicity and convenience.
