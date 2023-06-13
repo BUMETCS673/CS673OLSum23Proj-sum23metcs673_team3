@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"/>
+    <title>Password Reset</title>
+</head>
+<body>
+    <div class="container">
+        <h2>Reset Your Password</h2>
+        {% include 'template_message.html' %} <!-- message display -->
+
+        <!-- Password reset form -->
+        <form method='post'>
+            {% csrf_token %} <!-- prevent a CSRF Attack -->
+            {{form.as_p}}
+            <div class="submit-button"><input type="submit" value="Submit" id="submit"></div>
+        </form>
+
+    </div>
+</body>
+</html>

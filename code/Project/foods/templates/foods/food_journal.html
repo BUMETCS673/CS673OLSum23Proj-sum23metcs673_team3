@@ -1,0 +1,193 @@
+{% extends "base.html" %}
+{% block page_title %}
+ Food Journal
+{% endblock %}
+
+{% block content %}
+<div class="row">
+
+<div class="row food_table">
+    <div class="col-2 mt-3">
+        <h3><u>Filters</u></h3><br>
+        <h4>Time Period</h4>
+        <div class="form-check form-switch">
+            <input name="time-period" id="all" type="radio" class="form-check-input">
+            <label class="form-check-label" for="all">All</label>
+
+            <input name="time-period" id="month" type="radio" class="form-check-input">
+            <label class="form-check-label" for="month">Last 30 Days</label>
+
+            <input name="time-period" id="week" type="radio" class="form-check-input">
+            <label class="form-check-label" for="week">Current Week</label>
+
+            <input name="time-period" id="today" type="radio" class="form-check-input">
+            <label class="form-check-label" for="today">Today</label>
+
+
+        </div>
+</div>
+    <div class="col-6 mt-3">
+        <h3><u>Food Journal</u></h3>
+<table class="table table-hover">
+    <tr class="table-dark">
+        <th>Food Name</th>
+        <th>Number of Servings</th>
+        <th>Total Calories</th>
+        <th>Time Consumed</th>
+    </tr>
+{% for food in foods %}
+    <tr class="table-light">
+        <td><b>{{food.food_name|title}}</b></td>
+        <td>{{food.num_servings}}</td>
+        <td>{{food.calories}}</td>
+        <td>{{food.date}}</td>
+    </tr>
+ {% endfor %}
+    <tr class="table-dark">
+<!--        <td><input type="text" id="food_name"></td>-->
+        <td><select name="foods" id="food_name"></select></td>
+        <td><input type="number" id="number_servings"></td>
+        <td></td>
+        <td></td>
+    </tr>
+</table>
+        <button type="submit" class="btn" id="log-food-item">Log</button>
+        </div>
+    <div class="col-2 mt-3">
+        <h3><u>Total Calories</u></h3>
+        <div class="calorie-counter">
+            <span>{{calories}}</span>
+        </div>
+
+    </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
+<script>
+    function setTimePeriod(){
+        let all = document.getElementById("all").checked
+        let week = document.getElementById("week").checked
+        let today = document.getElementById("today").checked
+        let month = document.getElementById("month").checked
+        let filter
+        if (week){
+            filter = "week"
+        }
+        else if(month){
+            filter = "month"
+        }
+        else if (today){
+            filter = "today"
+        }else {
+            filter = "all"
+        }
+
+        let myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        let token = Cookies.get('csrftoken');
+        myHeaders.append('X-CSRFToken',token)
+
+        var raw = JSON.stringify({
+        "filter": filter
+        });
+
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
+
+        fetch("http://127.0.0.1:8000/foods/set-filter", requestOptions)
+            .then(response => response.text())
+            .then(result => {
+                console.log(result)
+                location.reload()
+            })
+            .catch(error => console.log('error', error));
+            }
+
+    document.getElementById("all").addEventListener("change",ev => {
+        setTimePeriod()
+    })
+    document.getElementById("month").addEventListener("change",ev => {
+        setTimePeriod()
+    })
+    document.getElementById("week").addEventListener("change",ev => {
+        setTimePeriod()
+    })
+    document.getElementById("today").addEventListener("change",ev => {
+        setTimePeriod()
+    })
+    window.addEventListener("load",ev=>{
+        let myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        let token = Cookies.get('csrftoken');
+        myHeaders.append('X-CSRFToken',token)
+        let applied_filter = "{{applied_filter}}"
+        if (applied_filter === "today"){
+            document.getElementById("today").checked = true
+        }else if(applied_filter === "week") {
+            document.getElementById("week").checked = true
+        }else if(applied_filter === "month"){
+            document.getElementById("month").checked = true
+        }else{
+            document.getElementById("all").checked = true
+        }
+
+
+        let requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+        redirect: 'follow'
+        };
+
+        fetch("http://127.0.0.1:8000/foods/get-food-names", requestOptions)
+        .then(response => response.text())
+        .then(result => {
+            let food_picker = document.getElementById("food_name")
+            console.log(result)
+            let food_list = JSON.parse(result)["food_name"]
+            for (let i = 0; i<food_list.length;i++){
+                let new_selection = document.createElement("option")
+                new_selection.value = food_list[i]
+                new_selection.innerText = food_list[i]
+                food_picker.appendChild(new_selection)
+            }
+
+        })
+        .catch(error => console.log('error', error));
+        })
+
+    document.getElementById("log-food-item").addEventListener("click",event=>{
+        let food_name = document.getElementById("food_name").value
+        let servings = document.getElementById("number_servings").value
+        let token = Cookies.get('csrftoken');
+
+
+        let myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        myHeaders.append("Cookie", "csrftoken=c8WDPudOABPAxaL7aEncG3SJWBzBEVBk");
+        myHeaders.append('X-CSRFToken',token)
+
+        let raw = JSON.stringify({
+        "food_item_name": food_name,
+        "num_servings": servings
+        });
+
+        let requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
+
+        fetch("http://127.0.0.1:8000/foods/create-log-entry", requestOptions)
+        .then(response => response.text())
+        .then(result => {
+            location.reload()
+        })
+        .catch(error => console.log('error', error));
+    })
+</script>
+{% endblock %}

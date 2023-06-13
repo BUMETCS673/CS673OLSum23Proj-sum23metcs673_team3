@@ -1,131 +1,44 @@
 <!DOCTYPE html>
 <html>
 <head>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    {% load static %}
+  <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"/>
   <title>User Login</title>
-<!--  <link rel="stylesheet" type="text/css" href="style.css">-->
-  <style>
-      body {
-  background-color: #f2f2f2;
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-}
-
-.container {
-  width: 400px;
-  margin: 100px auto;
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 4px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-h2 {
-  text-align: center;
-  color: #333;
-}
-
-form {
-  margin-top: 20px;
-}
-
-.form-group {
-  margin-bottom: 20px;
-}
-
-label {
-  display: block;
-  font-weight: bold;
-  color: #666;
-}
-
-input[type="text"],
-input[type="password"] {
-  width: 100%;
-  padding: 10px;
-  font-size: 16px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-}
-
-input[type="submit"] {
-  padding: 10px 20px;
-  font-size: 16px;
-  background-color: #4CAF50;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-p {
-  text-align: center;
-  margin-top: 10px;
-}
-
-a {
-  color: #4CAF50;
-}
-
-/* Background Image */
-/*body {*/
-/*  background-image: url('model.jpg');*/
-/*  background-size: cover;*/
-/*}*/
-
-/* Media Query for Responsive Design */
-@media (max-width: 480px) {
-  .container {
-    width: 80%;
-  }
-}
-  </style>
 </head>
 <body>
-  <div class="container">
-    <h2>User Login</h2>
-    <form>
-      <div class="form-group">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required>
+  <div class="container-fluid m-0">
+      <div class="row">
+          <div class="col-12 ">
+              <div class="header-container">
+                  <h1>User Login</h1>
+              </div>
+          </div>
       </div>
-      <div class="form-group">
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
+      <div>
+        {% include 'template_message.html' %}
       </div>
-      <div class="form-group">
-        <input type="submit" value="Login" id="submit">
+
+    <!-- login form -->
+      <div class="row justify-content-center">
+          <div class="col-6 form-container">
+            <form method='post'> <!-- Django from requires to use a POST method -->
+                {% csrf_token %} <!-- prevent a CSRF Attack -->
+                {{form.as_p}}
+                <div class="submit-button">
+                    <input type="submit" value="Login" id="submit">
+                </div>
+            </form>
+              <p>Don't have an account? <a href="{% url 'register' %}">Register</a></p>
+              <p><a href="{% url 'reset_pass' %}">Forgot password?</a></p>
+          </div>
       </div>
-    </form>
-    <p>Don't have an account? <a href="{% url 'register' %}">Register</a></p>
+
+
+
   </div>
-<script>
-    document.getElementById("submit").addEventListener("click",event=>{
-        let username = document.getElementById("username").value
-        let password = document.getElementById("password").value
-
-        let myHeaders = new Headers();
-        myHeaders.append("Content-Type", "application/json");
-
-        let raw = JSON.stringify({
-            "username": username,
-            "password": password
-        });
-
-        let requestOptions = {
-            method: 'POST',
-            headers: myHeaders,
-            body: raw,
-            redirect: 'follow'
-        };
-        // The address below may need to be changed depending on where the Django app is running
-        fetch("http://127.0.0.1:8001/login/api-auth/", requestOptions)
-                .then(response => response.text())
-                .then(result => console.log(result))
-                .catch(error => console.log('error', error));
-    })
-  
-</script>
 </body>
 </html>
 
