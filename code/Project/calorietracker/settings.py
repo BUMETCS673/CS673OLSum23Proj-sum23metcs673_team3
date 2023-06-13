@@ -30,7 +30,7 @@ GOOGLE_AUTH_REDIRECT_URI = 'http://localhost:8000/login/homepage'
 
 
 #custom user model
-AUTH_USER_MODEL = 'login.User'
+# AUTH_USER_MODEL = 'login.User'
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-zzkc1$6@s7au3bisaakx$c=y*fb2vy$(fl+8$l+7s+9hc!bae+'
