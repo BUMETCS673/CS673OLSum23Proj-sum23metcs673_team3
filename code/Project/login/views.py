@@ -260,7 +260,7 @@ def google_auth_callback(request):
                             user_profile.profile_picture_url = profile_picture_url
                             user_profile.save()
 
-                            return redirect('home')
+                            return redirect('food-journal')
                 except ValueError:
                     pass
     return HttpResponseBadRequest('Invalid request')
