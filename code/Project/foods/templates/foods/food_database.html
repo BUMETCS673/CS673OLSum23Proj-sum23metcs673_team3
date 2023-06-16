@@ -80,12 +80,12 @@ Food Table
             })
             .catch(error => console.log('error', error));
     });
-    var checkboxes = document.getElementsByClassName("food-checkbox");
-    var selectedValue = "";
+    let checkboxes = document.getElementsByClassName("food-checkbox");
+    let selectedValue = "";
 
     function handleCheckboxChange(event) {
         // Uncheck all other checkboxes
-        for (var i = 0; i < checkboxes.length; i++) {
+        for (let i = 0; i < checkboxes.length; i++) {
             if (checkboxes[i] !== event.target) {
                 checkboxes[i].checked = false;
             }
@@ -97,7 +97,7 @@ Food Table
     }
     
     // Add event listener to each checkbox
-    for (var i = 0; i < checkboxes.length; i++) {
+    for (let i = 0; i < checkboxes.length; i++) {
         checkboxes[i].addEventListener("change", handleCheckboxChange);
     }
     

@@ -44,7 +44,7 @@ def get_all_foods():
             "calories": item.calories_per_serving,
             "image": item.image
         }
-        print(item)
+        # print(item)
         food_list.append(temp)
 
     print(food_list)
@@ -80,9 +80,6 @@ def new_journal_item(request):
     return Response(data, status=200)
 
 
-# def get_user_journal(time="week"):
-#
-
 def get_all_journal(user_id):
     if FILTER == "today":
         enddate = datetime.today()
@@ -103,6 +100,7 @@ def get_all_journal(user_id):
     total_calories = 0
     for item in response:
         temp = {
+            "id":item.id,
             "user": item.user,
             "food_name": item.food.name,
             "calories": item.calories_consumed,
@@ -113,7 +111,7 @@ def get_all_journal(user_id):
         print(item)
         entry_list.append(temp)
 
-    print(entry_list)
+    # print(entry_list)
     return entry_list, total_calories
 
 
@@ -144,3 +142,14 @@ def del_food(request):
         return Response(status=200)
     else:
         return HttpResponseBadRequest('Invalid request method')  
+
+@api_view(['POST'])
+def del_log(request):
+    if request.method == 'POST':
+        log_selected = request.POST.get('log_item_selected')
+        print(log_selected)
+        log_entry = FoodLog.objects.get(id=log_selected)
+        log_entry.delete()
+        return Response(status=200)
+    else:
+        return HttpResponseBadRequest('Invalid request method')
