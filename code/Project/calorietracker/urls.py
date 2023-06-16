@@ -19,7 +19,10 @@ from django.urls import path, include, re_path
 import debug_toolbar
 from django.contrib.auth.decorators import login_required
 from login import views
-from foods import views
+#from foods import views
+from django.conf import settings
+from django.conf.urls.static import static
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,4 +30,4 @@ urlpatterns = [
     path('foods/', include('foods.urls')),
     path('__debug__/',include(debug_toolbar.urls)),#umamaheswar
     re_path(r'^$', views.index, name='index'), # set index to the homepage under login folder
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) ## Adithya

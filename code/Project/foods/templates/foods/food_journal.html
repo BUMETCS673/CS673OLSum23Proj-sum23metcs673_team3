@@ -47,10 +47,19 @@
 <!--        <td><input type="text" id="food_name"></td>-->
         <td><select name="foods" id="food_name"></select></td>
         <td><input type="number" id="number_servings"></td>
-        <td></td>
-        <td></td>
+        <td>Select Date</td>
+        <td><input type="datetime-local" id="dateInput"></td>
+     
     </tr>
 </table>
+<script>
+    var dateInput = document.getElementById('dateInput');
+    var currentDate = new Date();
+    var currentDateTime = currentDate.toISOString().slice(0, 16);
+
+    dateInput.value = currentDateTime;
+</script>
+
         <button type="submit" class="btn" id="log-food-item">Log</button>
         </div>
     <div class="col-2 mt-3">
@@ -64,6 +73,7 @@
 </div>
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
 <script>
+    var serverIP = window.location.hostname;
     function setTimePeriod(){
         let all = document.getElementById("all").checked
         let week = document.getElementById("week").checked
@@ -98,7 +108,7 @@
             redirect: 'follow'
         };
 
-        fetch("http://127.0.0.1:8000/foods/set-filter", requestOptions)
+        fetch("http://" + serverIP + ":8000/foods/set-filter", requestOptions)
             .then(response => response.text())
             .then(result => {
                 console.log(result)
@@ -142,11 +152,10 @@
         redirect: 'follow'
         };
 
-        fetch("http://127.0.0.1:8000/foods/get-food-names", requestOptions)
+        fetch("http://" + serverIP + ":8000/foods/get-food-names", requestOptions)
         .then(response => response.text())
         .then(result => {
             let food_picker = document.getElementById("food_name")
-            console.log(result)
             let food_list = JSON.parse(result)["food_name"]
             for (let i = 0; i<food_list.length;i++){
                 let new_selection = document.createElement("option")
@@ -162,9 +171,14 @@
     document.getElementById("log-food-item").addEventListener("click",event=>{
         let food_name = document.getElementById("food_name").value
         let servings = document.getElementById("number_servings").value
+        let ateDate = document.getElementById("dateInput")
+
+        var currentDate = new Date().toISOString().slice(0, 16);  // Get current date and time in the format "YYYY-MM-DDThh:mm"
+
+        if (!ateDate.value) {
+            ateDate.value = currentDate;
+        }
         let token = Cookies.get('csrftoken');
-
-
         let myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
         myHeaders.append("Cookie", "csrftoken=c8WDPudOABPAxaL7aEncG3SJWBzBEVBk");
@@ -172,7 +186,8 @@
 
         let raw = JSON.stringify({
         "food_item_name": food_name,
-        "num_servings": servings
+        "num_servings": servings,
+        "dateHad": ateDate.value
         });
 
         let requestOptions = {
@@ -182,7 +197,7 @@
             redirect: 'follow'
         };
 
-        fetch("http://127.0.0.1:8000/foods/create-log-entry", requestOptions)
+        fetch("http://" + serverIP + ":8000/foods/create-log-entry", requestOptions)
         .then(response => response.text())
         .then(result => {
             location.reload()

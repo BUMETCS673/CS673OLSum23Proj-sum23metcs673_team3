@@ -38,8 +38,9 @@ SECRET_KEY = 'django-insecure-zzkc1$6@s7au3bisaakx$c=y*fb2vy$(fl+8$l+7s+9hc!bae+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+# Add ip address of test client machine here
+#ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.29.25','localhost']
 
 # Application definition
 
@@ -104,11 +105,11 @@ WSGI_APPLICATION = 'calorietracker.wsgi.application'
 #TODO: Write a guide for setting up the DB locally so it can be connected to, for now just comment this out to test without the db connection
 DATABASES = {
     "default": {
-        "NAME":"calorie_tracker",
+        "NAME":"calorie_tracker", # Postgres dbName
         "ENGINE": "django.db.backends.postgresql",
         "HOST":"localhost",
-        "USER": 'postgres',
-        "PASSWORD":"password"
+        "USER": 'postgres', # Local Postgres usrname
+        "PASSWORD":"postgr" # Local Postgres passwd
         # "OPTIONS": {
         #     "passfile": ".pgpass",
         # },
@@ -175,9 +176,21 @@ LOGGING = {
 }
 
 # Email sending function
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'cs673team3@gmail.com'
-EMAIL_HOST_PASSWORD = ''
+#EMAIL_HOST_USER = 'adithyap@gmail.com' # Use own mail id &
+EMAIL_HOST_USER = 'cs673team3@gmail.com' 
+EMAIL_HOST_PASSWORD = '' # Passwd generated at App Passwd in Google a/c to test
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+
+# EMAIL_HOST = 'smtp.gmail.com'  # Update this with your email provider's SMTP server
+# EMAIL_PORT = 587  # Update this with the SMTP server port
+# EMAIL_HOST_USER = 'your-email@example.com'  # Update this with your email address
+# EMAIL_HOST_PASSWORD = 'your-email-password'  # Update this with your email password(From App Passwd)
+# EMAIL_USE_TLS = True  # Use TLS encryption
+# DEFAULT_FROM_EMAIL = 'your-email@example.com'  # Update this with your email address
+
+#Media Folders
+MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+MEDIA_URL = '/media/'
