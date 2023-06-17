@@ -109,7 +109,7 @@ DATABASES = {
         "ENGINE": "django.db.backends.postgresql",
         "HOST":"localhost",
         "USER": 'postgres', # Local Postgres usrname
-        "PASSWORD":"postgr" # Local Postgres passwd
+        "PASSWORD":"password" # Local Postgres passwd
         # "OPTIONS": {
         #     "passfile": ".pgpass",
         # },
