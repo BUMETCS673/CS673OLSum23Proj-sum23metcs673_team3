@@ -55,7 +55,8 @@ INSTALLED_APPS = [
     'login',
     'debug_toolbar', 
     'bootstrap5',
-    'foods'
+    'foods',
+    'social'
 
 ]
 
