@@ -164,7 +164,7 @@ label{
 
 .food_table{
   display: flex;
-  overflow: auto;
+  overflow: scroll;
   justify-content: center;
 }
 
@@ -186,6 +186,10 @@ label{
 
 td {
   background-color: white;
+}
+
+.filter{
+  border-right: solid lightgray 1px;
 }
 
 /*#d2e0ee*/

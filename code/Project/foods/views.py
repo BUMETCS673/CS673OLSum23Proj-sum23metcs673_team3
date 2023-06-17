@@ -22,7 +22,8 @@ def index(request):
     return render(request, 'foods/food_journal.html', {
         "foods": foods,
         "calories": str(calories),
-        "applied_filter": FILTER
+        "applied_filter": FILTER,
+        "line_chart":[{"x":"2023-05-29","y":1000},{"x":"2023-05-30","y":1500},{"x":'2023-05-31','y':1400},{'x':'2023-06-01','y':1300},{'x':'2023-06-02','y':1600}]
     })
 
 
@@ -84,17 +85,17 @@ def get_all_journal(user_id):
     if FILTER == "today":
         enddate = datetime.today()
         startdate = datetime.today() - timedelta(1)
-        response = FoodLog.objects.filter(user_id=user_id, time_ate__range=[startdate, enddate])
+        response = FoodLog.objects.filter(user_id=user_id, time_ate__range=[startdate, enddate]).order_by('-time_ate')
     elif FILTER == "week":
         enddate = datetime.today()
         startdate = datetime.today() - timedelta(7)
-        response = FoodLog.objects.filter(user_id=user_id, time_ate__range=[startdate, enddate])
+        response = FoodLog.objects.filter(user_id=user_id, time_ate__range=[startdate, enddate]).order_by('-time_ate')
     elif FILTER == "month":
         enddate = datetime.today()
         startdate = datetime.today() - timedelta(30)
-        response = FoodLog.objects.filter(user_id=user_id, time_ate__range=[startdate, enddate])
+        response = FoodLog.objects.filter(user_id=user_id, time_ate__range=[startdate, enddate]).order_by('-time_ate')
     else:
-        response = FoodLog.objects.filter(user_id=user_id)
+        response = FoodLog.objects.filter(user_id=user_id).order_by('-time_ate')
 
     entry_list = []
     total_calories = 0
@@ -153,3 +154,56 @@ def del_log(request):
         return Response(status=200)
     else:
         return HttpResponseBadRequest('Invalid request method')
+
+@api_view(['POST'])
+def get_calories_per_day(request):
+    current_user = request.user.id
+    print(current_user)
+    journal_entries = get_all_journal(current_user)
+    rtn=[]
+    date_data = {}
+    for entry in journal_entries[0]:
+        date = entry["date"].strftime('%d-%m-%Y')
+        calories = entry["calories"]
+        if date in date_data:
+            date_data[date] = date_data[date]+calories
+        else:
+            date_data[date]=calories
+    for date in date_data:
+        rtn.append({'x':date,'y':date_data[date]})
+    print(rtn)
+    return Response({"calories":rtn}, status=200)
+
+@api_view(['POST'])
+def get_favorite_food(request):
+    current_user = request.user.id
+    print(current_user)
+    journal_entries = get_all_journal(current_user)
+    food_data = {}
+    for entry in journal_entries[0]:
+        food = entry["food_name"]
+        if food in food_data:
+            food_data[food] = food_data[food] + 1
+        else:
+            food_data[food]= 1
+    labels = []
+    numbers = []
+    sorted_food_data = dict(sorted(food_data.items(), key=lambda item: item[1],reverse=True))
+    print(sorted_food_data)
+    count = 0
+    other = 0
+    for food in food_data:
+        if count <5:
+            labels.append(food)
+            numbers.append(food_data[food])
+            count += 1
+        else:
+            other += food_data[food]
+            count += 1
+    if count >= 5:
+        labels.append("Other")
+        numbers.append(other)
+    return Response({"labels":labels,"numbers":numbers}, status=200)
+
+
+
