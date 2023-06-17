@@ -45,12 +45,9 @@
     <div class="row">
         <div class="col-12">
             <div class="navigation-container">
-
+                    <button class="btn mt-1" id="social-btn">Social</button>
                     <button class="btn mt-1" id="food-journal">My Food Journal</button>
-
                     <button class="btn mt-1" id="food-table">Food Table</button>
-
-
                     <button class="btn mt-1" id="logout-btn">Logout</button>
             </div>
         </div>
@@ -59,6 +56,9 @@
     {% endblock %}
 </div>
 <script>
+    document.getElementById("social-btn").addEventListener("click",ev=>{
+        location.href = '/social/';
+    })
     document.getElementById("logout-btn").addEventListener("click",ev=>{
         location.href = '/login/logout';
     })
