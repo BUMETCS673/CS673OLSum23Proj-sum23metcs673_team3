@@ -7,43 +7,68 @@
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"/>
     <meta charset="UTF-8">
-    <title>Homepage</title>
+    <title>Calorie Tracker</title>
 </head>
 <body>
         <div class="container-fluid m-0">
             <div class="row">
                 <div class="col-12 ">
                     <div class="header-container">
-                        <h1>Calorie Logger</h1>
+                        <h1>Welcome to Calorie Tracker!</h1>
                     </div>
                 </div>
             </div>
-        {% include 'template_message.html' %} <!-- message display -->
-        {% block content %}
+
         <div class="row">
             <div class="col-12 justify-text-center mt-4">
+                <h3>🍎 Welcome to our Calorie Tracker - Your Personal Health Assistant! 🥦</h3>
+                <div class="homepage-container">
+                    <p style="text-align: left;">Staying healthy has never been this easy and fun! Get ready to revolutionize your relationship
+                        with food through our Python Django-based web application, designed to keep an eagle eye on your
+                        daily calorie intake.</p>
+                    <p style="text-align: left;">Bid goodbye to guesswork and say hello to precision. Here, you get to log in every morsel that
+                        crosses your lips and let our smart application do all the math. From that quick snack to the
+                        sumptuous dinner, we'll help you track and calculate your total calorie consumption, making it
+                        effortlessly simple to stick to your dietary plans.</p>
+                    <h4>Interested? Join Today!</h4>
+                    <p class="mt-4">
+                        <a href="{% url 'login' %}"><button class="btn">Log In</button></a>
+                        Or
+                        <a href="{% url 'register' %}"><button class="btn">Register</button></a>
+                    </p>
+                    <hr>
+                    <h3>Learn More About Calorie Tracker</h3>
+                    <div class="gallery">
+                        <div class="img-box">
+                            <img class="home-img" src="{% static 'gallery-1.png' %}">
+                            <h4>Smart Chart and Journal Log</h4>
+                            <p>With our Calorie Tracker, you're no longer dieting - you're embarking on a journey to a
+                                healthier, happier you. It's like having a personal dietitian at your fingertips,
+                                available 24/7, ready to help you achieve your fitness goals.</p>
+                        </div>
+                        <div class="img-box">
+                            <img class="home-img" src="{% static 'gallery-2.png' %}">
+                            <h4>Calorie Talk - Make Friends!</h4>
+                            <p>Who said calorie tracking needs to be a lonely endeavor? Brace yourself for an extra dose
+                                of fun with our integrated Social Media feature! No more solitary struggles in achieving
+                                your fitness goals - it's time to connect, share, and inspire.</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <h3>And More...</h3>
+                    <div class="contact-box">
+                        <p>Want to know even more? Check on our GitHub and Wiki Page!</p>
+                        <p>
+                            <a href="https://github.com/BUMETCS673/CS673OLSum23Proj-sum23metcs673_team3/tree/main">GitHub Page</a>
+                             |
+                            <a href="https://bumetcs673.github.io/CS673OLSum23Proj-sum23metcs673_team3/">Wiki Page</a>
+                        </p>
+                    </div>
+                </div>
 
-
-
-
-
-
-        <!-- if user has logged in -->
-        {% if user.is_authenticated %}
-        Hi {{ user.username }}!
-        <p><a href="{% url 'logout' %}">Logout</a></p>
-        <p><a href="{% url 'change_pass' %}">Change Password</a></p>
-
-        <!-- if user has not logged in -->
-        {% else %}
-
-        <h3>Welcome!</h3>
-        <p class="mt-4"><a href="{% url 'login' %}">Log In</a> Or <a href="{% url 'register' %}">Register</a></p>
-        {% endif %}
             </div>
         </div>
 
-        {% endblock %}
     </div>
 </body>
 </html>

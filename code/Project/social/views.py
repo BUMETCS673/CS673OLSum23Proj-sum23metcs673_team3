@@ -5,6 +5,9 @@ from django.contrib.auth.models import User
 
 # index page for social posting
 def index(request):
+    if not request.user.is_authenticated: # check if user already logged in
+        return redirect('/') # if not, redirect to homepage
+
     # When user creates a post
     if request.method == "POST":
         form = PostForm(request.POST)
@@ -31,6 +34,9 @@ def all_profile(request):
 
 # user's profile page
 def profile(request, pk):
+    if not request.user.is_authenticated: # check if user already logged in
+        return redirect('/') # if not, redirect to homepage
+
     # handle errors
     if not hasattr(request.user, 'profile'):
         missing_profile = Profile(user=request.user)

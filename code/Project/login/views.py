@@ -18,11 +18,36 @@ from django.http import HttpResponseBadRequest
 
 # render index page as the homepage
 def index(request):
+    if request.user.is_authenticated: # check if user already logged in
+        return redirect('/foods/') # if so, redirect to food page
     return render(request, 'homepage.html')
 
 
 def homepage(request):
+    if request.user.is_authenticated: # check if user already logged in
+        return redirect('/foods/') # if so, redirect to food page
     return render(request,"homepage.html")
+
+
+def manage(request):
+    if not request.user.is_authenticated: # check if user is logged in
+        return redirect('/login') # if not, redirect to login page
+
+        # get user's information through request session
+    user = request.user
+    if request.method == 'POST':  # when user submit the password changing form
+        form = ChangePass(user, request.POST)
+        if form.is_valid():  # if form is valid, save the new password
+            form.save()
+            messages.success(request, "Your password has been changed")
+            return redirect('login')
+        else:
+            for error in list(form.errors.values()):  # show error if form is not valid
+                messages.error(request, error)
+
+    # reset page
+    form = ChangePass(user)
+    return render(request,"manage.html",{'form': form})
 
 
 # registration function
@@ -85,30 +110,7 @@ def user_login(request):
 # Logout function
 def user_logout(request):
     logout(request)
-    return redirect('homepage')
-
-
-# Allow users change their password
-def change_pass(request):
-    if not request.user.is_authenticated: # check if user logged in
-        return redirect('homepage') # if not, redirect to homepage
-
-    # get user's information through request session
-    user = request.user
-    if request.method == 'POST': # when user submit the password changing form
-        form = ChangePass(user, request.POST)
-        if form.is_valid(): # if form is valid, save the new password
-            form.save()
-            messages.success(request, "Your password has been changed")
-            return redirect('login')
-        else:
-            for error in list(form.errors.values()): # show error if form is not valid
-                messages.error(request, error)
-
-    # reset page
-    form = ChangePass(user)
-    messages.success(request, "Please double check your input.")
-    return render(request, 'change_pass.html', {'form': form})
+    return redirect('/')
 
 
 # Start the password reset function (sending email)
@@ -123,9 +125,12 @@ def reset_pass(request):
                 sendEmail(request, user, form.cleaned_data.get('email'), subject, 1)
                 messages.success(request, "Please check your email for password reset.")
                 return redirect('homepage')
+            else:
+                messages.error(request, "Account does not exist.")
+        else:
+            messages.error(request, "There's something wrong, please check your input.")
 
     form = ResetPass()
-    messages.success(request, "The email is incorrect.")
     return render(request, "reset_pass.html", {"form": form})
 
 

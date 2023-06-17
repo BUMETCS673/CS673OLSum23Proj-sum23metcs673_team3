@@ -36,7 +36,7 @@ label {
   color: #666;
 }
 
-.register input[type="email"]
+.form-box input[type="email"]
 {
   width: 80%;
   padding: 10px;
@@ -44,11 +44,8 @@ label {
   border-radius: 4px;
   border: 1px solid #ccc;
 }
-.register{
 
-}
-
-.register input[type="text"]
+.form-box input[type="text"]
 {
   width: 80%;
   padding: 10px;
@@ -56,7 +53,7 @@ label {
   border-radius: 4px;
   border: 1px solid #ccc;
 }
-.register input[type="password"]
+.form-box input[type="password"]
 {
   width: 80%;
   padding: 10px;
@@ -157,6 +154,46 @@ body {
   box-shadow: lightgrey 1px 1px 1px 1px;
 }
 
+.logout-btn {
+  color: white;
+  font-weight: 700;
+  background-color: #5a7582;
+  border: 2px solid white;
+}
+
+.logout-btn:hover{
+  background-color: #84a29f;
+  box-shadow: none;
+}
+
+.logout {
+  position: absolute;
+  left:0;
+  margin: 0.5em auto;
+}
+
+.manage-account{
+  margin: 2em;
+}
+
+.manage-account form{
+  border: #666666 1px solid;
+  background-color: white;
+  padding: 2em;
+  width: 50%;
+  margin: 2em auto;
+  text-align: left;
+}
+
+.manage-account .pass-change ul {
+  align-content: center;
+  border: darkred 3px solid;
+  padding: 1em 2em;
+  box-shadow: lightgrey 1px 1px 1px 1px;
+  margin: auto 2em;
+  border-radius: 0.275rem;
+}
+
 label{
   font-family: 'Montserrat', sans-serif;
   color: #56664e;
@@ -195,10 +232,45 @@ td {
 /*#a6b980*/
 /*#56664e*/
 
+/* message box styling */
+.message-box {
+  align-content: center;
+  padding: 1em 2em;
+  box-shadow: lightgrey 1px 1px 1px 1px;
+  margin: 0.5em 2em;
+  border-radius: 0.275rem;
+  text-align: center;
+}
+
+.is_error {
+  font-weight: bold;
+  background-color: rgb(255, 65, 83, 0.1);
+  border: darkred 3px solid;
+}
+
+.is_success {
+  font-weight: bold;
+  background-color: rgb(60, 179, 113, 0.1);
+  border: darkgreen 3px solid;
+  color: darkgreen;
+}
+
+.is_info {
+  font-weight: bold;
+  background-color: rgb(0, 0, 255, 0.1);
+  border: dodgerblue 3px solid;
+  color: blue;
+}
+
+.is_warning {
+  font-weight: bold;
+  background-color: rgb(255, 165, 0, 0.1);
+  border: darkorange 3px solid;
+  color: darkorange;
+}
+
 
 /* Social Posting Styling */
-
-
 .social-frontpage {
   display: flex;
   width: 90%;
@@ -335,4 +407,39 @@ td {
 
 .follow-container h4 {
   margin-top: 0.6em;
+}
+
+
+/* homepage styling */
+.homepage-container {
+  width: 70%;
+  margin: 2em auto;
+}
+
+.gallery {
+  text-align: center;
+  display: flex;
+  width: 100%;
+}
+
+.home-img {
+  border: #666666 1px solid;
+  box-shadow: lightgrey 1px 1px 1px 1px;
+  height:180px;
+  object-fit: cover;
+  position: relative;
+  transition: transform .2s;
+  padding: 0.3em;
+  margin: 1em 2em;
+}
+
+.home-img:hover{
+  transform: scale(1.1);
+  z-index: 2;
+}
+
+.img-box {
+  display: inline-block;
+  width: 45%;
+  margin: 1.5em;
 }
