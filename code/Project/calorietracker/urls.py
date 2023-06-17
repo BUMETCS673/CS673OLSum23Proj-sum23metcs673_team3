@@ -25,6 +25,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/', include('login.urls')),
     path('foods/', include('foods.urls')),
-    path('__debug__/',include(debug_toolbar.urls)),#umamaheswar
+    path('__debug__/',include(debug_toolbar.urls)),
+    path('accounts/',include('allauth.urls')),
     re_path(r'^$', views.index, name='index'), # set index to the homepage under login folder
 ]

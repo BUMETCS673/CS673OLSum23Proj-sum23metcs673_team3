@@ -20,14 +20,32 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
-from pathlib import Path
-from google.oauth2 import id_token
+
+# -----------------
+
+#For Custom Google Auth Function
+#from pathlib import Path
+#from google.oauth2 import id_token
+
 
 # Google OAuth configuration
-GOOGLE_CLIENT_ID = '97882040710-506r1hqfuuvqoa7rdkrtchha4onaqogf.apps.googleusercontent.com'
-GOOGLE_CLIENT_SECRET = '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'
-GOOGLE_AUTH_REDIRECT_URI = 'http://localhost:8000/login/homepage'
+# GOOGLE_CLIENT_ID = ''
+# GOOGLE_CLIENT_SECRET = '='
+#GOOGLE_AUTH_REDIRECT_URI = '/'
 
+#------------------
+# SITE_ID = 1
+
+# AUTHENTICATION_BACKENDS = [
+#     # Needed to login by username in Django admin, regardless of `allauth`
+#     'django.contrib.auth.backends.ModelBackend',
+
+#     # `allauth` specific authentication methods, such as login by e-mail
+#     'allauth.account.auth_backends.AuthenticationBackend',
+# ]
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+
+LOGIN_REDIRECT_URL = 'http://127.0.0.1:8000/foods/'
 
 #custom user model
 # AUTH_USER_MODEL = 'login.User'
@@ -54,8 +72,12 @@ INSTALLED_APPS = [
     'login',
     'debug_toolbar', 
     'bootstrap5',
-    'foods'
-
+    'foods',
+     'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount', 
+    'allauth.socialaccount.providers.google'
 ]
 
 MIDDLEWARE = [
@@ -67,15 +89,17 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    #'django.contrib.auth.backends.ModelBackend',
+    #'allauth.account.auth_backends.AuthenticationBackend'
+
+    
 
 ]
-LOGIN_REDIRECT_URL = '/login/homepage/'
-#-------
-#umamaheswar
+
 INTERNAL_IPS = [
     '127.0.0.1',
 ]
-#------
+
 ROOT_URLCONF = 'calorietracker.urls'
 
 TEMPLATES = [
