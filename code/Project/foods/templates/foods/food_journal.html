@@ -8,9 +8,21 @@
 
 <div class="row food_table">
     <div class="col-2 mt-3">
+        <br>
+        <div class="text-center ms-5 pb-3" style="border-bottom: solid lightgray">
+           <button type="submit" class="btn" id="log-food-item">Log</button>
+            <button type="submit" class="btn" id="delete-food-item">Delete Selected</button>
+        </div>
+        <div class="text-center mt-3  ms-5 pb-3" style="border-bottom: solid lightgray">
+            <h3><u>Total Calories</u></h3>
+            <div class="calorie-counter">
+                <span>{{calories}}</span>
+            </div>
+        </div>
+        <br>
         <h3><u>Filters</u></h3><br>
-        <h4>Time Period</h4>
-        <div class="form-check form-switch">
+        <h4 class="ms-5 ">Time Period</h4>
+        <div class="form-check form-switch ms-5 pb-3" style="border-bottom: solid lightgray">
             <input name="time-period" id="all" type="radio" class="form-check-input">
             <label class="form-check-label" for="all">All</label>
 
@@ -22,19 +34,28 @@
 
             <input name="time-period" id="today" type="radio" class="form-check-input">
             <label class="form-check-label" for="today">Today</label>
-
-
         </div>
+
 </div>
-    <div class="col-6 mt-3">
+    <div class="col-6 mt-3" >
         <h3><u>Food Journal</u></h3>
-<table class="table table-hover">
+        <div style="overflow-y: scroll; height: 72vh">
+<table class="table table-hover" >
     <tr class="table-dark">
         <th></th>
         <th>Food Name</th>
         <th>Number of Servings</th>
         <th>Total Calories</th>
         <th>Time Consumed</th>
+    </tr>
+    <tr class="table-secondary">
+<!--        <td><input type="text" id="food_name"></td>-->
+        <td></td>
+        <td><select name="foods" id="food_name"></select></td>
+        <td><input type="number" id="number_servings"></td>
+        <td>Select Date</td>
+        <td><input type="datetime-local" id="dateInput"></td>
+
     </tr>
 {% for food in foods %}
     <tr class="table-light">
@@ -49,33 +70,28 @@
         <td>{{food.date}}</td>
     </tr>
  {% endfor %}
-    <tr class="table-dark">
-<!--        <td><input type="text" id="food_name"></td>-->
-        <td></td>
-        <td><select name="foods" id="food_name"></select></td>
-        <td><input type="number" id="number_servings"></td>
-        <td>Select Date</td>
-        <td><input type="datetime-local" id="dateInput"></td>
-     
-    </tr>
+
 </table>
-<script>
+            </div>
 
-</script>
 
-        <button type="submit" class="btn" id="log-food-item">Log</button>
-        <button type="submit" class="btn" id="delete-food-item">Delete Selected</button>
         </div>
-    <div class="col-2 mt-3">
-        <h3><u>Total Calories</u></h3>
-        <div class="calorie-counter">
-            <span>{{calories}}</span>
+    <div class="col-4 mt-3">
+
+        <h3><u>Calories Over Time</u></h3>
+        <div>
+            <canvas id="calorieChart" style="background-color: white"></canvas>
+        </div>
+        <div class="mt-3">
+        <h3><u>Favorite Foods</u></h3>
+            <canvas  id="favoriteFoods" style="background-color: white; max-height: 35vh"></canvas>
         </div>
 
     </div>
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     let serverIP = window.location.hostname;
 
@@ -259,6 +275,78 @@
             })
             .catch(error => console.log('error', error));
     });
+    window.addEventListener("load",event =>{
+        let token = Cookies.get('csrftoken');
+        let requestOptions = {
+        method: 'POST',
+        headers: {
+                'X-CSRFToken': token,
+            },
+        redirect: 'follow'
+        };
+
+        fetch("http://localhost:8000/foods/cal-per-day", requestOptions)
+        .then(response => response.text())
+        .then(result => {
+
+            const ctx = document.getElementById('calorieChart');
+            const foodChart = document.getElementById('favoriteFoods')
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    datasets: [{
+                        data: JSON.parse(result)["calories"],
+                        label:"Calories",
+                        borderWidth: 3,
+                        borderColor:  '#56664e',
+                        backgroundColor: '#56664e'
+                        }]
+                    },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                            },
+                        x: {
+                            ticks: {
+                                autoSkip: false,
+                                maxRotation: 90,
+                                minRotation: 80
+                                }
+                            }
+                        }
+                    },
+                });
+            console.log(result)
+        })
+        .catch(error => console.log('error', error));
+                fetch("http://localhost:8000/foods/fav-food", requestOptions)
+        .then(response => response.text())
+        .then(result => {
+
+            const ctx = document.getElementById('calorieChart');
+            const foodChart = document.getElementById('favoriteFoods')
+            new Chart(foodChart, {
+                type: 'doughnut',
+                data: {
+                    datasets: [{
+                        data: JSON.parse(result)["numbers"],
+                        backgroundColor: ["#d2e0ee","#687cac","#84a29f","#c08673","#a6b980","#56664e"]
+                        }],
+                    labels:JSON.parse(result)["labels"]
+                    },
+                options: {
+
+
+                    },
+                });
+            console.log(result)
+        })
+        .catch(error => console.log('error', error));
+    })
+
+
+
 
 </script>
 {% endblock %}
