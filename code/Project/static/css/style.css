@@ -16,7 +16,7 @@
 /*  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);*/
 /*}*/
 
-h1,h2,h3 {
+h1,h2,h3,h4 {
   text-align: center;
   color: #56664e;
   font-family: 'Montserrat', sans-serif;
@@ -164,7 +164,7 @@ label{
 
 .food_table{
   display: flex;
-  overflow: scroll;
+  overflow: auto;
   justify-content: center;
 }
 
@@ -188,13 +188,151 @@ td {
   background-color: white;
 }
 
-.filter{
-  border-right: solid lightgray 1px;
-}
-
 /*#d2e0ee*/
 /*#687cac*/
 /*#c08673*/
 /*#84a29f*/
 /*#a6b980*/
 /*#56664e*/
+
+
+/* Social Posting Styling */
+
+
+.social-frontpage {
+  display: flex;
+  width: 90%;
+  margin: auto;
+}
+
+.posts-container {
+  float: left;
+  width: 56%;
+  margin: 2em;
+}
+
+.single-post {
+  background: white;
+  border: #666666 solid 1px;
+  padding: 1em;
+  margin-bottom: 1em;
+}
+
+.post-name {
+  font-weight: 700;
+  font-size: larger;
+}
+
+.post-time {
+  color: #cccccc;
+}
+
+.post-body p{
+  text-align: left;
+}
+
+.sendbox-container {
+  float: right;
+  width: 36%;
+  margin: 2em;
+}
+
+.social-nav {
+  width: 100%;
+}
+
+.social-btn{
+  border: 1px solid black;
+  margin: 1vh;
+  background-color: #56664e;
+  font-family: 'Montserrat', sans-serif;
+  color: white;
+  width: 100%;
+  padding: .375rem .75rem;
+  border-radius: .25rem;
+}
+
+.social-btn:hover{
+  background-color: #84a29f;
+  box-shadow: lightgrey 1px 1px 1px 1px;
+}
+
+.social-profiles {
+  margin: 1em auto;
+  width: 70%;
+  text-align: center;
+}
+
+.social-profiles img{
+  max-height: 8em;
+}
+
+.profile_btn {
+  background-color: white;
+  border: 1px solid black;
+  width: 20vw;
+  display: inline-block;
+  margin: 0.5em;
+  border-radius: .25rem;
+}
+
+.user-page-container {
+  float: right;
+  width: 36%;
+  margin: 0 2em 2em 2em;
+}
+
+.is_inactive {
+  width: 45%;
+  background-color: darkgrey;
+}
+
+.is_inactive:hover{
+  background-color: darkgrey;
+  box-shadow: none;
+  cursor: not-allowed;
+  color: white;
+}
+
+.is_green {
+  width: 45%;
+}
+
+.is_red{
+  width: 45%;
+  background-color: firebrick;
+}
+
+.is_red:hover{
+  background-color: darkred;
+  color: white;
+}
+
+.follow-container li {
+  display: inline-block;
+  background-color: white;
+  border: #666666 1px solid;
+  padding: 1em;
+  margin: 0.5em;
+  border-radius: .25rem;
+}
+
+.follow-container a {
+  text-decoration: none;
+}
+
+.follow-container li:hover {
+  color: white;
+  background-color: #84a29f;
+}
+
+.follow-container {
+  background-color: lightgoldenrodyellow;
+  border: #666666 1px solid;
+  margin: 2em 0;
+  border-radius: .25rem;
+}
+
+.follow-container h4 {
+  margin-top: 0.6em;
+}
