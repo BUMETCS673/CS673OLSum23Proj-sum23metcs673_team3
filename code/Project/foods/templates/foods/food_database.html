@@ -5,44 +5,58 @@ Food Table
 
 {% block content %}
 <div class="row food_table">
+    <div class="col-2 mt-3">
+        <button type="submit" class="btn" id="create-food-item" style="align-self: center">Create</button>
+        <button type="submit" class="btn btn-danger" id="delete-food-item">Delete Selected</button>
+    </div>
     <div class="col-6 mt-3">
+        <h3><u>Food Database</u></h3>
+        <div style="overflow-y: scroll; height: 72vh">
 <table class="table table-hover align-middle">
     <tr class="table-dark">
+        <th style="max-width: 1vw"></th>
         <th style="text-align: center">Food Name</th>
+        <th style="text-align: center">Food Image</th>
         <th style="text-align: center">Calories Per Serving</th>
     </tr>
+    <tr class="table-secondary">
+        <td></td>
+        <td><input type="text" id="food_name"></td>
+        <td>
+            <label for="foodImg_Id" style="color: black">Choose Image File:</label>
+            <input type="file" name="foodImg"  accept="image/*" id="foodImg_Id" >
+        </td>
+        <td><input type="number" id="calories"></td>
+    </tr>
     {% for food in foods %}
-    <tr>
-        <td style="padding-left: 4vw">
+    <tr class="table-light">
+        <td>
             <div>
                 <input type="checkbox" name="food_select" value="{{ food.id }}" class="food-checkbox">
-                <img src="{{ food.image.url }}" alt="" style="max-width: 125px; max-height: 125px;">
             </div>
+        </td>
+        <td style="padding-left: 4vw">
             <div>
                 <b>{{ food.name|title }}</b>
+            </div>
+        </td>
+        <td>
+            <div>
+                <img src="{{ food.image.url }}" alt="" style="max-width: 125px; max-height: 125px;">
             </div>
         </td>
         <td style="text-align: center">{{ food.calories }}</td>
     </tr> 
     {% endfor %}
-    </div>
+
+  </table>
 </div>
-    <tr>
-        <td style="padding-left: 4vw"><input type="text" id="food_name"></td>
-        <td style="padding-left: 8vw"><input type="number" id="calories"></td>
-    </tr>
-    <tr>
-        <td style="padding-left: 4vw">
-            <label for="foodImg_Id">Choose Image File:</label>
-            <input type="file" name="foodImg"  accept="image/*" id="foodImg_Id" >
-        </td>
-        <td><button type="submit" class="btn" id="create-food-item">Create</button>
-        <button type="submit" class="btn btn-danger" id="delete-food-item">Delete Selected</button></td>
-    </tr>
-</table>
+    </div>
+    <div class="col-3 mt-3"></div>
+</div>
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
 <script>
-    var serverIP = window.location.hostname;
+    let serverIP = window.location.hostname;
     document.getElementById("create-food-item").addEventListener("click", event => {
         let food_name = document.getElementById("food_name").value;
         let calories = document.getElementById("calories").value;
@@ -71,12 +85,12 @@ Food Table
             })
             .catch(error => console.log('error', error));
     });
-    var checkboxes = document.getElementsByClassName("food-checkbox");
-    var selectedValue = "";
+    let checkboxes = document.getElementsByClassName("food-checkbox");
+    let selectedValue = "";
 
     function handleCheckboxChange(event) {
         // Uncheck all other checkboxes
-        for (var i = 0; i < checkboxes.length; i++) {
+        for (let i = 0; i < checkboxes.length; i++) {
             if (checkboxes[i] !== event.target) {
                 checkboxes[i].checked = false;
             }
@@ -88,7 +102,7 @@ Food Table
     }
     
     // Add event listener to each checkbox
-    for (var i = 0; i < checkboxes.length; i++) {
+    for (let i = 0; i < checkboxes.length; i++) {
         checkboxes[i].addEventListener("change", handleCheckboxChange);
     }
     
