@@ -28,7 +28,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/', include('login.urls')),
     path('foods/', include('foods.urls')),
+    path('__debug__/',include(debug_toolbar.urls)),
+    path('accounts/',include('allauth.urls')),
     path('social/', include('social.urls')),
-    path('__debug__/',include(debug_toolbar.urls)),#umamaheswar
     re_path(r'^$', views.index, name='index'), # set index to the homepage under login folder
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) ## Adithya
