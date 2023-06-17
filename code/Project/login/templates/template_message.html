@@ -1,13 +1,13 @@
 {% if messages %}
     {% for message in messages %}
         {% if message.tags == 'success' %}
-                {{ message|safe|escape }}
+        <div class="message-box is_success">{{ message|safe|escape }}</div>
         {% elif message.tags == 'error' %}
-                {{ message|safe }}
+        <div class="message-box is_error">{{ message|safe }}</div>
         {% elif message.tags == 'info' %}
-                {{ message|safe|escape }}
+        <div class="message-box is_info">{{ message|safe|escape }}</div>
         {% elif message.tags == 'warning' %}
-                {{ message|safe|escape }}
+        <div class="message-box is_warning">{{ message|safe|escape }}</div>
         {% endif %}
     {% endfor %}
 {% endif %}

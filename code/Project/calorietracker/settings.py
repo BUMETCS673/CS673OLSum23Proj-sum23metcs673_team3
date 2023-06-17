@@ -56,8 +56,9 @@ SECRET_KEY = 'django-insecure-zzkc1$6@s7au3bisaakx$c=y*fb2vy$(fl+8$l+7s+9hc!bae+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+# Add ip address of test client machine here
+#ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.29.25','localhost']
 
 # Application definition
 
@@ -73,11 +74,12 @@ INSTALLED_APPS = [
     'debug_toolbar', 
     'bootstrap5',
     'foods',
-     'django.contrib.sites',
+    'django.contrib.sites',
     'allauth',
     'allauth.account',
     'allauth.socialaccount', 
     'allauth.socialaccount.providers.google'
+    'social'
 ]
 
 MIDDLEWARE = [
@@ -128,11 +130,11 @@ WSGI_APPLICATION = 'calorietracker.wsgi.application'
 #TODO: Write a guide for setting up the DB locally so it can be connected to, for now just comment this out to test without the db connection
 DATABASES = {
     "default": {
-        "NAME":"calorie_tracker",
+        "NAME":"calorie_tracker", # Postgres dbName
         "ENGINE": "django.db.backends.postgresql",
         "HOST":"localhost",
-        "USER": 'postgres',
-        "PASSWORD":"djangoproject"
+        "USER": 'postgres', # Local Postgres usrname
+        "PASSWORD":"password" # Local Postgres passwd
         # "OPTIONS": {
         #     "passfile": ".pgpass",
         # },
@@ -199,10 +201,15 @@ LOGGING = {
 }
 
 # Email sending function
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'cs673team3@gmail.com'
-EMAIL_HOST_PASSWORD = 'vkfyympkkcobgbnn'
 
+
+EMAIL_HOST_USER = 'cs673team3@gmail.com' 
+EMAIL_HOST_PASSWORD = 'vkfyympkkcobgbnn' # Will figure out a way for security issue
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+
+#Media Folders
+MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+MEDIA_URL = '/media/'

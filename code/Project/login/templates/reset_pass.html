@@ -1,24 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
     {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"/>
-    <title>Reset your password</title>
+  <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"/>
+  <title>Reset Password</title>
 </head>
 <body>
-    <div class="container">
-        <h2>Change Password</h2>
-        {% include 'template_message.html' %} <!-- message display -->
-
-        <!-- Information form -->
-        <form method='post'>
-            {% csrf_token %} <!-- prevent a CSRF Attack -->
-            {{form.as_p}}
-            <div class="submit-button"><input type="submit" value="Submit" id="submit"></div>
-        </form>
-        <p>Don't have an account? <a href="{% url 'register' %}">Register</a></p>
-        <p>Go back to <a href="{% url 'homepage' %}">Homepage</a></p>
+  <div class="container-fluid m-0">
+      <div class="row">
+          <div class="col-12 ">
+              <div class="header-container">
+                  <h1>Reset Password</h1>
+              </div>
+          </div>
+      </div>
+      <div class="row justify-content-center">
+            <div class="col-6 form-container">
+                <p></p>
+                <h2>Please enter your account email</h2>
+                <!-- Information form -->
+                <form method='post' class="form-box">
+                    {% include 'template_message.html' %}
+                    {% csrf_token %} <!-- prevent a CSRF Attack -->
+                    {{form.as_p}}
+                    <div class="submit-button"><input type="submit" value="Submit" id="submit"></div>
+                </form>
+                <p>Don't have an account? <a href="{% url 'register' %}">Register</a></p>
+                <p>Go back to <a href="{% url 'homepage' %}">Homepage</a></p>
+            </div>
+      </div>
   </div>
 </body>
 </html>

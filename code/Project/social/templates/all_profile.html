@@ -1,0 +1,18 @@
+{% extends "social_base.html" %}
+{% block page_title %}
+Social Profiles
+{% endblock %}
+{% block content %}
+{% load static %}
+<div class="social-profiles">
+    {% for profile in profiles %}
+        <a href="{% url 'profile' profile.id %}">
+            <button class="profile_btn">
+                <img src="{% static 'user.jpg' %}">
+                <p class="post-name">{{ profile.user.username }}</p>
+                <p class="post-time">@{{ profile.user.username|lower }}</p>
+            </button>
+        </a>
+    {% endfor %}
+</div>
+{% endblock %}

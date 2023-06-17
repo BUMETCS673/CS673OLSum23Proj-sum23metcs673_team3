@@ -1,0 +1,63 @@
+{% extends "social_base.html" %}
+{% block page_title %}
+{{profile.user.username|upper}}'s Social Posts
+{% endblock %}
+{% block content %}
+<div class="social-frontpage">
+    <div class="posts-container">
+        {% for post in profile.user.posts.all reversed %}
+        <div class="single-post">
+            <div class="post-time">{{ post.created_at }}</div>
+            <div class="post-body"><p>{{ post.body }}</p></div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="user-page-container">
+        <div class="social-nav">
+            <form method="post">
+                {% csrf_token %}
+                <div class="buttons">
+                    {% if profile in user.profile.follows.all %}
+                    <button class="social-btn is_inactive">Follow</button>
+                    <button class="social-btn is_red" name="follow" value="unfollow">Unfollow</button>
+                    {% else %}
+                    <button class="social-btn is_green" name="follow" value="follow">Follow</button>
+                    <button class="social-btn is_inactive">Unfollow</button>
+                    {% endif %}
+                </div>
+            </form>
+
+            <a href="{% url 'all_profile' %}">
+                <button class="social-btn">All Profiles</button>
+            </a>
+        </div>
+
+        <div class="follow-container">
+            <h4>{{profile.user.username}} follows:</h4>
+            <div class="follow-content">
+                <ul>
+                    {% for following in profile.follows.all %}
+                    <a href="{% url 'profile' following.id %}">
+                    <li>@{{ following }}</li>
+                    </a>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="follow-container">
+            <h4>{{profile.user.username}} is followed by:</h4>
+            <div class="follow-content">
+                <ul>
+                    {% for follower in profile.followed_by.all %}
+                    <a href="{% url 'profile' follower.id %}">
+                    <li>@{{ follower }}</li>
+                    </a>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

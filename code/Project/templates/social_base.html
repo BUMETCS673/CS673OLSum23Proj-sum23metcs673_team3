@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Calorie Talk</title>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"/>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="header-container">
+                <h1>{% block page_title %}{% endblock %}</h1>
+                <div class="logout"><button class="btn logout-btn" id="logout-btn">Logout</button></div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="navigation-container">
+                    <button class="btn mt-1" id="social-btn">Social</button>
+                    <button class="btn mt-1" id="food-journal">My Food Journal</button>
+                    <button class="btn mt-1" id="food-table">Food Table</button>
+                    <button class="btn mt-1" id="manage-btn">Manage Account</button>
+            </div>
+        </div>
+    </div>
+    {% block content %}
+    {% endblock %}
+</div>
+<script>
+    document.getElementById("manage-btn").addEventListener("click",ev=>{
+        location.href = '/login/manage';
+    })
+    document.getElementById("social-btn").addEventListener("click",ev=>{
+        location.href = '/social/';
+    })
+    document.getElementById("logout-btn").addEventListener("click",ev=>{
+        location.href = '/login/logout';
+    })
+    document.getElementById("food-journal").addEventListener("click",ev=>{
+        location.href = '/foods/';
+    })
+    document.getElementById("food-table").addEventListener("click",ev=>{
+        location.href = '/foods/food-table';
+    })
+</script>
+
+</body>
+</html>
