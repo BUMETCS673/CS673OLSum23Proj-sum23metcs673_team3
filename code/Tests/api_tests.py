@@ -2,33 +2,9 @@ import requests
 import os
 import json
 
-BASE_URL = "http://127.0.0.1:8000/"
+BASE_URL = "http://localhost:8000/"
 CSRF_TOKEN = os.getenv("CSRF_TOKEN")
 SESSION_ID=os.getenv("SESSION_ID")
-"DcVMemjSJtbgTqkK0dbXApqT8lshA8zz"
-
-
-# def test_auth_users_good():
-#     url = "http://127.0.0.1:8000/login/api-auth/"
-#     data= {
-#         "username":"corydon-test",
-#         "password": "pass"
-#     }
-#     response = requests.post(url,data=data)
-#     print(response)
-#     assert response.status_code == 200
-#     assert response.headers["content-type"]== "text/html; charset=utf-8"
-#
-# def test_auth_users_bad():
-#     url = "http://127.0.0.1:8000/login/api-auth/"
-#     data= {
-#         "username":"corydon-test",
-#         "password": "pa"
-#     }
-#     response = requests.post(url,data=data)
-#     print(response)
-#     assert response.status_code == 403
-
 
 def test_set_filter():
     url = BASE_URL + "foods/set-filter"
@@ -58,15 +34,16 @@ def test_get_foods_api():
 
 
 def test_create_log_entry():
-    url = "http://127.0.0.1:8000/foods/create-log-entry"
+    url = BASE_URL+"foods/create-log-entry"
     headers = {
-        "X-CSRFToken": CSRF_TOKEN,
+        "X-CSRFToken":{CSRF_TOKEN},
         "Content-Type": "application/json",
         "Cookie": f"csrftoken={CSRF_TOKEN}; sessionid={SESSION_ID}"
     }
     data = json.dumps({
         "food_item_name": "apple",
-        "num_servings": "4"
+        "num_servings": "4",
+        "dateHad": "2023-06-17T03:15"
     })
     response = requests.post(url, data=data, headers=headers)
     print(response)
@@ -87,4 +64,37 @@ def test_create_food_item():
     print(response)
     assert response.status_code == 200
 
+def test_delete_log_entry():
+    url = BASE_URL + "foods/delete-log-entry"
+    headers = {
+        "X-CSRFToken": CSRF_TOKEN
+    }
+    data = {
+        "log_item_selected":"29"
+    }
+    response = requests.post(url, data=data, headers=headers)
+    print(response)
+    assert response.status_code == 200
 
+def test_cal_per_day():
+    url = BASE_URL + "foods/cal-per-day"
+    headers = {
+        "X-CSRFToken": CSRF_TOKEN
+    }
+    response = requests.post(url, headers=headers)
+    print(response)
+    response_json = response.json()
+    assert response.status_code == 200
+    assert "calories" in response_json
+
+def test_cal_per_day():
+    url = BASE_URL + "foods/fav-food"
+    headers = {
+        "X-CSRFToken": CSRF_TOKEN
+    }
+    response = requests.post(url, headers=headers)
+    print(response)
+    response_json = response.json()
+    assert response.status_code == 200
+    assert "labels" in response_json
+    assert "numbers" in response_json
