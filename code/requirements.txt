@@ -28,3 +28,5 @@ six
 google-auth
 google-auth-oauthlib
 google-auth-httplib2
+django-allauth
+django-bootstrap-v5

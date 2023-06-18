@@ -46,6 +46,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 LOGIN_REDIRECT_URL = 'http://127.0.0.1:8000/foods/'
+LOGIN_URL="/login/"
 
 #custom user model
 # AUTH_USER_MODEL = 'login.User'
@@ -78,7 +79,7 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount', 
-    'allauth.socialaccount.providers.google'
+    'allauth.socialaccount.providers.google',
     'social'
 ]
 

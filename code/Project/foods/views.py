@@ -10,11 +10,11 @@ from datetime import datetime, timedelta
 from foods.models import Food, FoodLog, calculate_food_calories
 from django.core.files.storage import default_storage
 from django.http import HttpResponse, HttpResponseBadRequest
-
+from django.contrib.auth.decorators import login_required
 
 FILTER = "all"
 
-
+@login_required
 def index(request):
     current_user = request.user.id
     foods = get_all_journal(current_user)[0]
@@ -26,7 +26,7 @@ def index(request):
         "line_chart":[{"x":"2023-05-29","y":1000},{"x":"2023-05-30","y":1500},{"x":'2023-05-31','y':1400},{'x':'2023-06-01','y':1300},{'x':'2023-06-02','y':1600}]
     })
 
-
+@login_required
 def food_table(request):
     foods = get_all_foods()
     return render(request, 'foods/food_database.html', {

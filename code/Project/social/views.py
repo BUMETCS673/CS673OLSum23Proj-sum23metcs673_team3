@@ -2,8 +2,10 @@ from django.shortcuts import render, redirect
 from .models import Profile, Post
 from .forms import PostForm
 from django.contrib.auth.models import User
-
+from django.contrib.auth.decorators import login_required
 # index page for social posting
+
+@login_required
 def index(request):
     if not request.user.is_authenticated: # check if user already logged in
         return redirect('/') # if not, redirect to homepage
@@ -27,12 +29,14 @@ def index(request):
 
 
 # show all profiles of this site
+@login_required
 def all_profile(request):
     profiles = Profile.objects.exclude(user=request.user)
     return render(request, "all_profile.html", {"profiles": profiles})
 
 
 # user's profile page
+@login_required
 def profile(request, pk):
     if not request.user.is_authenticated: # check if user already logged in
         return redirect('/') # if not, redirect to homepage
