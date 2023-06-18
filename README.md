@@ -21,5 +21,5 @@ Meal Planning and Goal Setting: Users can set calorie intake goals based on thei
 - Corydon Wood
 - Alekhya Koppineni
 - Zuowen Tang
-- Aditya Prakash
+- Adithya Prakash
 - Edara Umamaheswar
