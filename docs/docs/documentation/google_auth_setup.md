@@ -55,7 +55,7 @@ assuming you’ve already created a superuser if not then create using,
 ``` python manage.py createsuperuser ```
 
 
-
+### Setting up Django Admin Page 
 Now run the server using python manage.py runserver and open django admin page. Go to this page http://127.0.0.1:8000/admin/sites/site/2/change/ and make these changes,
     ![output](./images/django_admin_page_sites.png)
 
@@ -67,6 +67,8 @@ Client id: [YOUR GOOGLE AUTH CLIENT ID]
 Secret key: [YOUR GOOGLE AUTH CLIENT SECRET]
 Sites: 127.0.0.1:8000
     ![output](./images/google_django_admin_page.png)
+
+###  Modify login.html file in the login app Template folder
 
 ``` In login.html file 
 
