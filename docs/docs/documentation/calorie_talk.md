@@ -1,3 +1,11 @@
+---
+layout: page
+show_sidebar: false
+menubar: menu
+title: Social Media Function - Calorie Talk
+permalink: /socialmedia/
+---
+
 # Social Media Function - Calorie Talk
 
 ## 1. Introduction
