@@ -1,62 +1,132 @@
 {% extends "base.html" %}
 {% block page_title %}
- Food Table
+Food Table
 {% endblock %}
 
 {% block content %}
 <div class="row food_table">
+    <div class="col-2 mt-3">
+        <button type="submit" class="btn" id="create-food-item" style="align-self: center">Create</button>
+        <button type="submit" class="btn btn-danger" id="delete-food-item">Delete Selected</button>
+    </div>
     <div class="col-6 mt-3">
+        <h3><u>Food Database</u></h3>
+        <div style="overflow-y: scroll; height: 72vh">
 <table class="table table-hover align-middle">
     <tr class="table-dark">
+        <th style="max-width: 1vw"></th>
         <th style="text-align: center">Food Name</th>
+        <th style="text-align: center">Food Image</th>
         <th style="text-align: center">Calories Per Serving</th>
     </tr>
-{% for food in foods %}
-    <tr>
-        <td style="padding-left: 4vw"><b>{{food.name|title}}</b></td>
-        <td style="text-align: center">{{food.calories}}</td>
+    <tr class="table-secondary">
+        <td></td>
+        <td><input type="text" id="food_name"></td>
+        <td>
+            <label for="foodImg_Id" style="color: black">Choose Image File:</label>
+            <input type="file" name="foodImg"  accept="image/*" id="foodImg_Id" >
+        </td>
+        <td><input type="number" id="calories"></td>
     </tr>
- {% endfor %}
-    <tr>
-        <td style="padding-left: 4vw"><input type="text" id="food_name"></td>
-        <td style="padding-left: 8vw"><input type="number" id="calories"></td>
-    </tr>
-</table>
-        <button type="submit" class="btn" id="create-food-item">Create</button>
-        </div>
+    {% for food in foods %}
+    <tr class="table-light">
+        <td>
+            <div>
+                <input type="checkbox" name="food_select" value="{{ food.id }}" class="food-checkbox">
+            </div>
+        </td>
+        <td style="padding-left: 4vw">
+            <div>
+                <b>{{ food.name|title }}</b>
+            </div>
+        </td>
+        <td>
+            <div>
+                <img src="{{ food.image.url }}" alt="" style="max-width: 125px; max-height: 125px;">
+            </div>
+        </td>
+        <td style="text-align: center">{{ food.calories }}</td>
+    </tr> 
+    {% endfor %}
+
+  </table>
+</div>
     </div>
+    <div class="col-3 mt-3"></div>
+</div>
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
 <script>
-    document.getElementById("create-food-item").addEventListener("click",event=>{
-        let food_name = document.getElementById("food_name").value
-        let calories = document.getElementById("calories").value
+    let serverIP = window.location.hostname;
+    document.getElementById("create-food-item").addEventListener("click", event => {
+        let food_name = document.getElementById("food_name").value;
+        let calories = document.getElementById("calories").value;
+        let foodImage = document.getElementById("foodImg_Id").files[0];
         let token = Cookies.get('csrftoken');
 
-
-        let myHeaders = new Headers();
-        myHeaders.append("Content-Type", "application/json");
-        myHeaders.append("Cookie", "csrftoken=c8WDPudOABPAxaL7aEncG3SJWBzBEVBk");
-        myHeaders.append('X-CSRFToken',token)
-
-        let raw = JSON.stringify({
-        "food_item_name": food_name,
-        "calories": calories
-        });
+        let formData = new FormData();
+        formData.append('food_item_name', food_name);
+        formData.append('calories', calories);
+        formData.append('food_image', foodImage);
 
         let requestOptions = {
             method: 'POST',
-            headers: myHeaders,
-            body: raw,
+            headers: {
+                'X-CSRFToken': token,
+            },
+            body: formData,
             redirect: 'follow'
         };
 
-        fetch("http://127.0.0.1:8000/foods/create-food-item", requestOptions)
-        .then(response => response.text())
-        .then(result => {
-            console.log(result)
-            location.reload()
-        })
-        .catch(error => console.log('error', error));
-    })
+        fetch("http://" + serverIP + ":8000/foods/create-food-item", requestOptions)
+            .then(response => response.text())
+            .then(result => {
+                console.log(result);
+                location.reload();
+            })
+            .catch(error => console.log('error', error));
+    });
+    let checkboxes = document.getElementsByClassName("food-checkbox");
+    let selectedValue = "";
+
+    function handleCheckboxChange(event) {
+        // Uncheck all other checkboxes
+        for (let i = 0; i < checkboxes.length; i++) {
+            if (checkboxes[i] !== event.target) {
+                checkboxes[i].checked = false;
+            }
+            else
+            {
+                selectedValue = checkboxes[i].value
+            }
+        }
+    }
+    
+    // Add event listener to each checkbox
+    for (let i = 0; i < checkboxes.length; i++) {
+        checkboxes[i].addEventListener("change", handleCheckboxChange);
+    }
+    
+    document.getElementById("delete-food-item").addEventListener("click", event => {
+        let token = Cookies.get('csrftoken');
+        let formData = new FormData();
+        formData.append('food_item_selected', selectedValue);
+        let requestOptions = {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': token,
+            },
+            body: formData,
+            redirect: 'follow'
+        };
+
+        fetch("http://" + serverIP + ":8000/foods/delete-food-item", requestOptions)
+            .then(response => response.text())
+            .then(result => {
+                console.log(result);
+                location.reload();
+            })
+            .catch(error => console.log('error', error));
+    });
+ 
 </script>
 {% endblock %}

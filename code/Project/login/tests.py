@@ -1,3 +1,4 @@
+'''
 from django.test import TestCase
 
 # Create your tests here.
@@ -37,3 +38,62 @@ class UserLoginTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         # Check if the correct template is used for rendering the login page
         self.assertTemplateUsed(response, 'login.html')
+'''
+
+from django.test import TestCase, Client
+from django.urls import reverse
+from django.contrib.auth.models import User
+
+
+class LoginTestCase(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.login_url = reverse('login')
+
+        # Create a test user
+        self.username = 'testuser'
+        self.password = 'testpassword'
+        self.user = User.objects.create_user(
+            username=self.username,
+            password=self.password
+        )
+
+    def test_login_view(self):
+        # Test GET request to login view
+        response = self.client.get(self.login_url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'login.html')
+
+    def test_login_success(self):
+        # Test successful login
+        login_data = {
+            'username': self.username,
+            'password': self.password
+        }
+        response = self.client.post(self.login_url, data=login_data)
+        self.assertEqual(response.status_code, 302)
+        # Add assertions based on the expected behavior of your app
+
+    def test_login_failure(self):
+        # Test login with incorrect credentials
+        login_data = {
+            'username': self.username,
+            'password': 'wrongpassword'
+        }
+        response = self.client.post(self.login_url, data=login_data)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'login.html')
+        self.assertContains(response, 'Invalid username or password')
+
+    def test_logout(self):
+        # Test logout
+        logout_url = reverse('logout')
+        response = self.client.get(logout_url)
+        self.assertEqual(response.status_code, 302)
+        # Add assertions based on the expected behavior of your app
+
+    def test_authenticated_user_redirect(self):
+        # Test that an authenticated user is redirected
+        self.client.login(username=self.username, password=self.password)
+        response = self.client.get(self.login_url)
+        self.assertEqual(response.status_code, 302)

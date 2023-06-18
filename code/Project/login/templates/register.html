@@ -25,21 +25,20 @@
         {% block content %}
     <div class="row justify-content-center">
         <div class="col-6 form-container">
+            <p></p>
+            <h2>Welcome to the Calorie Tracker</h2>
         <!-- registration form -->
-        <form method="post" class="register"> <!-- Django form requires to use a POST methods -->
+        <form method="post" class="form-box"> <!-- Django form requires to use a POST methods -->
             {% csrf_token %} <!-- prevent a CSRF Attack -->
 	        {% for field in form %}
-	        <p>
             {% if field.errors %} <!-- when error occurs, display the error message -->
-		        <ul class="errorlist">
-			        {% for error in field.errors %}
-			        {{ error }}
-			        {% endfor %}
-		        </ul>
+            {% for error in field.errors %}
+            <div class="message-box is_error">
+                {{ error }}
+            </div>
+            {% endfor %}
             {% endif %}
-
-	 	    {{ field.label_tag }} {{ field }}
-	        </p>
+            <p>{{ field.label_tag }} {{ field }}</p>
 	        {% endfor %}
             <div class="submit-button"><input type="submit" value="Register" id="submit"></div>
         </form>

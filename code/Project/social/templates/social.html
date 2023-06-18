@@ -1,0 +1,38 @@
+{% extends "social_base.html" %}
+{% block page_title %}
+Social Dashboard
+{% endblock %}
+{% block content %}
+      <div class="social-frontpage">
+          <div class="posts-container">
+            {% for post in posts %}
+            <div class="single-post">
+                <div class="post-name">{{post.user.username}}</div>
+                <div class="post-time">{{ post.created_at }}</div>
+                <div class="post-body"><p>{{ post.body }}</p></div>
+            </div>
+            {% endfor %}
+          </div>
+
+          <div class="sendbox-container">
+              <div class="social-nav">
+                <a href="{% url 'all_profile' %}">
+                  <button class="social-btn">All Profiles</button>
+                </a>
+                <a href="{% url 'profile' request.user.profile.id %}">
+                  <button class="social-btn">My Profile</button>
+                </a>
+              </div>
+              <p>
+              <h3>Post Some Thoughts!</h3>
+              <form method="post">
+              {% csrf_token %}
+              {{ form.as_p }}
+                  <div class="submit-button">
+                    <button class="btn" type="submit">Post</button>
+                  </div>
+              </form>
+          </div>
+
+      </div>
+{% endblock %}
