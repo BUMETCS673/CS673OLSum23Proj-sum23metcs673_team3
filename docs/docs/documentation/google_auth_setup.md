@@ -7,7 +7,9 @@ permalink: /google-auth/
 ---
 ### Installation
 
-``` pip3 install django-allauth ```
+``` Terminal
+pip3 install django-allauth
+```
 
 
 ### Setup
@@ -52,7 +54,9 @@ python manage.py migrate
 
 assuming you’ve already created a superuser if not then create using,
 
-``` python manage.py createsuperuser ```
+``` Terminal
+python manage.py createsuperuser
+```
 
 
 ### Setting up Django Admin Page 
@@ -68,7 +72,7 @@ Secret key: [YOUR GOOGLE AUTH CLIENT SECRET]
 Sites: 127.0.0.1:8000
     ![output](./images/google_django_admin_page.png)
 
-###  Modify login.html file in the login app Template folder
+###  Modify login.html file in the login app, Template folder
 
 ``` In login.html file 
 
