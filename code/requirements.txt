@@ -25,6 +25,7 @@ urllib3==1.26.14
 Werkzeug==2.2.2
 zipp==3.11.0
 six
-google-auth
-google-auth-oauthlib
-google-auth-httplib2
+# google-auth
+# google-auth-oauthlib
+# google-auth-httplib2
+django-allauth

@@ -73,7 +73,7 @@ INSTALLED_APPS = [
     'debug_toolbar', 
     'bootstrap5',
     'foods',
-     'django.contrib.sites',
+    'django.contrib.sites',
     'allauth',
     'allauth.account',
     'allauth.socialaccount', 
