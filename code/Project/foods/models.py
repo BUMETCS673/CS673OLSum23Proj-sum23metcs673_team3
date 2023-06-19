@@ -2,6 +2,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
+from django.conf import settings
+
 
 def calculate_food_calories(base_calories, servings):
     # Implement your logic to calculate the calories consumed based on no. of servings
@@ -18,7 +20,7 @@ class Food(models.Model):
 
 
 class FoodLog(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     food = models.ForeignKey(Food, on_delete=models.CASCADE)
     num_of_servings = models.IntegerField()
     time_ate = models.DateTimeField(default=timezone.now)

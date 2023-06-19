@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block page_title %}
+ Manage My Account
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="manage-account">
+        <h3>Hi {{ user.username }}!</h3>
+        <h4>Use following form to change your password.</h4>
+        <form method='post' class="form-box">
+            {% include 'template_message.html' %} <!-- message display -->
+            {% csrf_token %} <!-- prevent a CSRF Attack -->
+            <div class="pass-change">
+            {{form.as_p}}
+            </div>
+            <div class="submit-button"><input type="submit" value="Submit" id="submit"></div>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -18,11 +18,36 @@ from django.http import HttpResponseBadRequest
 
 # render index page as the homepage
 def index(request):
+    if request.user.is_authenticated: # check if user already logged in
+        return redirect('/foods/') # if so, redirect to food page
     return render(request, 'homepage.html')
 
 
 def homepage(request):
+    if request.user.is_authenticated: # check if user already logged in
+        return redirect('/foods/') # if so, redirect to food page
     return render(request,"homepage.html")
+
+
+def manage(request):
+    if not request.user.is_authenticated: # check if user is logged in
+        return redirect('/login') # if not, redirect to login page
+
+        # get user's information through request session
+    user = request.user
+    if request.method == 'POST':  # when user submit the password changing form
+        form = ChangePass(user, request.POST)
+        if form.is_valid():  # if form is valid, save the new password
+            form.save()
+            messages.success(request, "Your password has been changed")
+            return redirect('login')
+        else:
+            for error in list(form.errors.values()):  # show error if form is not valid
+                messages.error(request, error)
+
+    # reset page
+    form = ChangePass(user)
+    return render(request,"manage.html",{'form': form})
 
 
 # registration function
@@ -85,30 +110,7 @@ def user_login(request):
 # Logout function
 def user_logout(request):
     logout(request)
-    return redirect('homepage')
-
-
-# Allow users change their password
-def change_pass(request):
-    if not request.user.is_authenticated: # check if user logged in
-        return redirect('homepage') # if not, redirect to homepage
-
-    # get user's information through request session
-    user = request.user
-    if request.method == 'POST': # when user submit the password changing form
-        form = ChangePass(user, request.POST)
-        if form.is_valid(): # if form is valid, save the new password
-            form.save()
-            messages.success(request, "Your password has been changed")
-            return redirect('login')
-        else:
-            for error in list(form.errors.values()): # show error if form is not valid
-                messages.error(request, error)
-
-    # reset page
-    form = ChangePass(user)
-    messages.success(request, "Please double check your input.")
-    return render(request, 'change_pass.html', {'form': form})
+    return redirect('/')
 
 
 # Start the password reset function (sending email)
@@ -123,9 +125,12 @@ def reset_pass(request):
                 sendEmail(request, user, form.cleaned_data.get('email'), subject, 1)
                 messages.success(request, "Please check your email for password reset.")
                 return redirect('homepage')
+            else:
+                messages.error(request, "Account does not exist.")
+        else:
+            messages.error(request, "There's something wrong, please check your input.")
 
     form = ResetPass()
-    messages.success(request, "The email is incorrect.")
     return render(request, "reset_pass.html", {"form": form})
 
 
@@ -204,63 +209,65 @@ def decipher(request, uidb64, token, User):
 
     return user, active
 
+#Custom Google Authentication Function
 
 
+# def google_login(request):
+#     google_auth_url = 'https://accounts.google.com/o/oauth2/auth'
+#     params = {
+#         'client_id': settings.GOOGLE_CLIENT_ID,
+#         'response_type': 'code',
+#         'scope': 'openid email',
+#         'redirect_uri': settings.GOOGLE_AUTH_REDIRECT_URI,
+#     }
+#     redirect_url = f'{google_auth_url}?{"&".join(f"{key}={value}" for key, value in params.items())}'
+#     return redirect(redirect_url)
 
-def google_login(request):
-    google_auth_url = 'https://accounts.google.com/o/oauth2/auth'
-    params = {
-        'client_id': settings.GOOGLE_CLIENT_ID,
-        'response_type': 'code',
-        'scope': 'openid email',
-        'redirect_uri': settings.GOOGLE_AUTH_REDIRECT_URI,
-    }
-    redirect_url = f'{google_auth_url}?{"&".join(f"{key}={value}" for key, value in params.items())}'
-    return redirect(redirect_url)
+#  if you want to build your custom function you can update the google_auth_callback(request) function accordingly. you need to modify 
 
-def google_auth_callback(request):
-    code = request.GET.get('code')
-    if code:
-        token_url = 'https://oauth2.googleapis.com/token'
-        data = {
-            'code': code,
-            'client_id': settings.GOOGLE_CLIENT_ID,
-            'client_secret': settings.GOOGLE_CLIENT_SECRET,
-            'redirect_uri': settings.GOOGLE_AUTH_REDIRECT_URI,
-            'grant_type': 'authorization_code',
-        }
-        response = requests.post(token_url, data=data)
-        if response.status_code == 200:
-            token_data = response.json()
-            id_token = token_data.get('id_token')
-            if id_token:
-                try:
-                    # Verify the ID token
-                    user_info = id_token.verify_oauth2_token(id_token, requests.Request(), settings.GOOGLE_CLIENT_ID)
-                    email = user_info.get('email')
-                    if email:
-                        # Check if a user with the email already exists
-                        try:
-                            user = User.objects.get(email=email)
-                        except User.DoesNotExist:
-                            # Create a new user with the email
-                            user = User.objects.create_user(email=email, username=email)
+# def google_auth_callback(request):
+#     code = request.GET.get('code')
+#     if code:
+#         token_url = 'https://oauth2.googleapis.com/token'
+#         data = {
+#             'code': code,
+#             'client_id': settings.GOOGLE_CLIENT_ID,
+#             'client_secret': settings.GOOGLE_CLIENT_SECRET,
+#             'redirect_uri': settings.GOOGLE_AUTH_REDIRECT_URI,
+#             'grant_type': 'authorization_code',
+#         }
+#         response = requests.post(token_url, data=data)
+#         if response.status_code == 200:
+#             token_data = response.json()
+#             id_token = token_data.get('id_token')
+#             if id_token:
+#                 try:
+#                     # Verify the ID token
+#                     user_info = id_token.verify_oauth2_token(id_token, requests.Request(), settings.GOOGLE_CLIENT_ID)
+#                     email = user_info.get('email')
+#                     if email:
+#                         # Check if a user with the email already exists
+#                         try:
+#                             user = User.objects.get(email=email)
+#                         except User.DoesNotExist:
+#                             # Create a new user with the email
+#                             user = User.objects.create_user(email=email, username=email)
 
-                        # Authenticate and log in the user
-                        authenticated_user = authenticate(request, username=email, password=email)
-                        if authenticated_user is not None:
-                            login(request, authenticated_user)
+#                         # Authenticate and log in the user
+#                         authenticated_user = authenticate(request, username=email, password=email)
+#                         if authenticated_user is not None:
+#                             login(request, authenticated_user)
 
-                            # Update or create user profile
-                            profile_picture_url = user_info.get('picture')
-                            name = user_info.get('name')
+#                             # Update or create user profile
+#                             profile_picture_url = user_info.get('picture')
+#                             name = user_info.get('name')
 
-                            user_profile, created = UserProfile.objects.get_or_create(user=user)
-                            user_profile.name = name
-                            user_profile.profile_picture_url = profile_picture_url
-                            user_profile.save()
+#                             user_profile, created = UserProfile.objects.get_or_create(user=user)
+#                             user_profile.name = name
+#                             user_profile.profile_picture_url = profile_picture_url
+#                             user_profile.save()
 
-                            return redirect('home')
-                except ValueError:
-                    pass
-    return HttpResponseBadRequest('Invalid request')
+#                             return redirect('food-journal')
+#                 except ValueError:
+#                     pass
+#     return HttpResponseBadRequest('Invalid request')
