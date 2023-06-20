@@ -168,9 +168,12 @@ def sendEmail(request, user, user_email, subject, reset=0):
         template = 'template_reset_pass.html'
 
     # keywords for sending email
+    # domain_ = 'ec2-3-93-23-187.compute-1.amazonaws.com:8000'
+    domain_ = 'localhost:8000'
+    
     message = render_to_string(template, {
         'user': user.username,
-        'domain': get_current_site(request).domain, # Database domain name (127.0.0.1:8080)
+        'domain': domain_;
         'uid': urlsafe_base64_encode(force_bytes(user.pk)), # Django default identifier generator
         'token': account_activation_token.make_token(user), # Django default secure token generator
         'protocol': 'https' if request.is_secure() else 'http' # Allow HTTPS if secure
