@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM ubuntu:22.10
 RUN apt update
 RUN apt -y upgrade
 RUN apt install -y python3 && apt install -y python3-pip
